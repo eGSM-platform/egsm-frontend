@@ -6,10 +6,11 @@ import { EnginesComponent } from './engines/engines.component';
 import { AggregatorsComponent } from './aggregators/aggregators.component';
 
 const routes: Routes = [
-  { path:'', component:OverviewComponent},
+  { path:'overview', component:OverviewComponent},
   { path:'library', component:LibraryComponent},
   { path:'engines', component:EnginesComponent},
   { path:'aggregators', component:AggregatorsComponent},
+  { path:'', component:OverviewComponent},
 ];
 
 @NgModule({
