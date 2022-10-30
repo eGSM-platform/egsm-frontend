@@ -12,6 +12,8 @@ import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatIconModule} from '@angular/material/icon';
 
 import { ServerStatusComponent } from './server-status/server-status.component';
 import { OverviewComponent } from './overview/overview.component';
@@ -20,6 +22,7 @@ import { EnginesComponent } from './engines/engines.component';
 import { AggregatorsComponent } from './aggregators/aggregators.component';
 import { SystemInformationComponent } from './system-information/system-information.component';
 import { LoadingBarComponent } from './loading-bar/loading-bar.component';
+import { WorkerDetailsDialogComponent } from './worker-details-dialog/worker-details-dialog.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,8 @@ import { LoadingBarComponent } from './loading-bar/loading-bar.component';
     EnginesComponent,
     AggregatorsComponent,
     SystemInformationComponent,
-    LoadingBarComponent
+    LoadingBarComponent,
+    WorkerDetailsDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +49,9 @@ import { LoadingBarComponent } from './loading-bar/loading-bar.component';
     MatCardModule,
     MatTableModule,
     MatPaginatorModule,
-    
+    MatDialogModule,
+    MatIconModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

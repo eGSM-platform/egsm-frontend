@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LibraryComponent implements OnInit {
 
+  fileName = ''
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onFileSelected(event:any){
+
   }
 
 }
