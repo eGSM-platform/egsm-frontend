@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { StorageServiceService } from '../storage-service.service';
 import { SupervisorService } from '../supervisor.service';
+
+const MODULE_STORAGE_KEY = 'system_information'
 
 @Component({
   selector: 'app-system-information',
@@ -13,29 +16,38 @@ export class SystemInformationComponent implements OnInit {
 
   eventSubscription: any
 
-  constructor(private supervisorService:SupervisorService) {
+  constructor(private supervisorService: SupervisorService, private storageService: StorageServiceService) {
   }
 
   ngOnInit(): void {
-    this.eventSubscription = this.supervisorService.SystemInformationEventEmitter.subscribe((update:any) => {
-      console.log('System information update received')
-      this.applyUpdate(update)
-    })
-    this.systemUpTime = 'N/A'
-    this.workerNumber = 0
-    this.aggregatorNumber = 0
-    console.log('Request system_information')
-    this.supervisorService.requestUpdate('system_information')
+    if (this.storageService.hasKey(MODULE_STORAGE_KEY)) {
+      this.eventSubscription = this.storageService.getSubject(MODULE_STORAGE_KEY).subscribe((update: any) => {
+        console.log('System information update received')
+        this.applyUpdate(update)
+      })
+      this.storageService.triggerUpdate(MODULE_STORAGE_KEY)
+    }
+    else {
+      this.storageService.addValue(MODULE_STORAGE_KEY, this.supervisorService.SystemInformationEventEmitter)
+      this.systemUpTime = 'N/A'
+      this.workerNumber = 0
+      this.aggregatorNumber = 0
+      this.eventSubscription = this.storageService.getSubject(MODULE_STORAGE_KEY).subscribe((update: any) => {
+        console.log('System information update received')
+        this.applyUpdate(update)
+      })
+      this.supervisorService.requestUpdate(MODULE_STORAGE_KEY)
+    }
   }
 
-  applyUpdate(update:any){
+  applyUpdate(update: any) {
     this.systemUpTime = update['system_up_time']
     this.workerNumber = update['worker_number']
     this.aggregatorNumber = update['aggregator_number']
     console.log(this.systemUpTime)
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.eventSubscription.unsubscribe()
   }
 }

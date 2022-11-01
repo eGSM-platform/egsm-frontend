@@ -36,8 +36,8 @@ export interface DialogData {
 
 
 const ENGINE_ELEMENT_DATA: WorkerElement[] = [
-  { index: 1, name: 'Worker_1', engine_mumber: 7, capacity: 50, uptime: "00:00" },
-  { index: 2, name: 'Worker_2', engine_mumber: 1, capacity: 50, uptime: "00:00" },
-  { index: 3, name: 'Worker_3', engine_mumber: 0, capacity: 50, uptime: "00:00" },
-  { index: 4, name: 'Worker_4', engine_mumber: 11, capacity: 50, uptime: "00:00" },
+// { index: 1, name: 'Worker_1', engine_mumber: 7, capacity: 50, uptime: "00:00" },
+// { index: 2, name: 'Worker_2', engine_mumber: 1, capacity: 50, uptime: "00:00" },
+// { index: 3, name: 'Worker_3', engine_mumber: 0, capacity: 50, uptime: "00:00" },
+// { index: 4, name: 'Worker_4', engine_mumber: 11, capacity: 50, uptime: "00:00" },
 ];
