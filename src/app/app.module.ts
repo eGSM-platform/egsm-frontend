@@ -22,7 +22,7 @@ import { EnginesComponent } from './engines/engines.component';
 import { AggregatorsComponent } from './aggregators/aggregators.component';
 import { SystemInformationComponent } from './system-information/system-information.component';
 import { LoadingBarComponent } from './loading-bar/loading-bar.component';
-import { WorkerDetailsDialogComponent } from './worker-details-dialog/worker-details-dialog.component';
+import { WorkerDetailsDialogComponent } from './overview/worker-details-dialog/worker-details-dialog.component';
 
 @NgModule({
   declarations: [

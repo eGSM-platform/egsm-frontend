@@ -1,24 +1,29 @@
 import { LocalizedString } from '@angular/compiler';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 
 import { AfterViewInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { WorkerDetailsDialogComponent } from '../worker-details-dialog/worker-details-dialog.component';
+import { SupervisorService } from '../supervisor.service';
+import { WorkerDetailsDialogComponent } from './worker-details-dialog/worker-details-dialog.component';
 
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss']
 })
-export class OverviewComponent implements AfterViewInit {
+export class OverviewComponent implements OnInit, AfterViewInit {
+  ENGINE_ELEMENT_DATA: WorkerElement[] = []
+
+
   engineDisplayedColumns: string[] = ['index', 'name', 'engines', 'capacity', 'time', 'button'];
   aggregatorDisplayedColumns: string[] = ['index', 'name', 'activities', 'time'];
-  enginedataSource = new MatTableDataSource<PeriodicElement>(ENGINE_ELEMENT_DATA);
-  aggregatordataSource = new MatTableDataSource<PeriodicElement>(AGGREGATOR_ELEMENT_DATA);
+  enginedataSource = new MatTableDataSource<WorkerElement>(this.ENGINE_ELEMENT_DATA);
+  aggregatordataSource = new MatTableDataSource<AggregatorElement>(AGGREGATOR_ELEMENT_DATA);
+  eventSubscription: any
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, private supervisorService: SupervisorService) {
 
   }
 
@@ -28,6 +33,18 @@ export class OverviewComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.enginedataSource.paginator = this.enginePaginator;
     //this.aggregatordataSource.paginator = this.aggregatorPaginator;
+  }
+
+  ngOnInit() {
+    this.eventSubscription = this.supervisorService.OverviewEventEmitter.subscribe((update: any) => {
+      console.log('Overview update received')
+      this.applyUpdate(update)
+    })
+    //this.supervisorService.requestUpdate('overview')
+  }
+
+  ngOnDestroy() {
+    this.eventSubscription.unsubscribe()
   }
 
   openDialog(name: LocalizedString) {
@@ -44,57 +61,42 @@ export class OverviewComponent implements AfterViewInit {
       console.log('The dialog was closed');
     });
   }
+
+  applyUpdate(update: any) {
+
+  }
 }
 
-export interface PeriodicElement {
+export interface WorkerElement {
+  index: number;
   name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+  capacity: number;
+  engine_mumber: number;
+  uptime: string;
 }
 
-const ENGINE_ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hidrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-  { position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na' },
-  { position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg' },
-  { position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al' },
-  { position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si' },
-  { position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P' },
-  { position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S' },
-  { position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl' },
-  { position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar' },
-  { position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K' },
-  { position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca' },
-];
+export interface AggregatorElement {
+  index: number;
+  name: string;
+  activity_mumber: number;
+  uptime: string;
+}
 
-const AGGREGATOR_ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hidrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-  { position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na' },
-  { position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg' },
-  { position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al' },
-  { position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si' },
-  { position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P' },
-  { position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S' },
-  { position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl' },
-  { position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar' },
-  { position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K' },
-  { position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca' },
+/*const ENGINE_ELEMENT_DATA: WorkerElement[] = [
+  { index: 1, name: 'Worker_1', engine_mumber: 7, capacity: 50, uptime: "00:00" },
+  { index: 2, name: 'Worker_2', engine_mumber: 1, capacity: 50, uptime: "00:00" },
+  { index: 3, name: 'Worker_3', engine_mumber: 0, capacity: 50, uptime: "00:00" },
+  { index: 4, name: 'Worker_4', engine_mumber: 11, capacity: 50, uptime: "00:00" },
+  { index: 1, name: 'Worker_1', engine_mumber: 7, capacity: 50, uptime: "00:00" },
+  { index: 2, name: 'Worker_2', engine_mumber: 1, capacity: 50, uptime: "00:00" },
+  { index: 3, name: 'Worker_3', engine_mumber: 0, capacity: 50, uptime: "00:00" },
+  { index: 4, name: 'Worker_4', engine_mumber: 11, capacity: 50, uptime: "00:00" },
+];*/
+
+const AGGREGATOR_ELEMENT_DATA: AggregatorElement[] = [
+  { index: 1, name: 'Aggregator_1', activity_mumber: 11, uptime: '00:00' },
+  { index: 2, name: 'Aggregator_2', activity_mumber: 11, uptime: '00:00' },
+  { index: 3, name: 'Aggregator_3', activity_mumber: 21, uptime: '00:00' },
+  { index: 4, name: 'Aggregator_4', activity_mumber: 31, uptime: '00:00' },
+  { index: 5, name: 'Aggregator_5', activity_mumber: 15, uptime: '00:00' },
 ];
