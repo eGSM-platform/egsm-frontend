@@ -23,6 +23,7 @@ import { AggregatorsComponent } from './aggregators/aggregators.component';
 import { SystemInformationComponent } from './system-information/system-information.component';
 import { LoadingBarComponent } from './loading-bar/loading-bar.component';
 import { WorkerDetailsDialogComponent } from './overview/worker-details-dialog/worker-details-dialog.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { WorkerDetailsDialogComponent } from './overview/worker-details-dialog/w
     MatPaginatorModule,
     MatDialogModule,
     MatIconModule,
+    MatProgressSpinnerModule,
 
   ],
   providers: [],

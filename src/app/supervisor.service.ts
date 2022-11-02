@@ -12,6 +12,8 @@ export class SupervisorService {
   //Specific Event Services for each relevant modules
   @Output() OverviewEventEmitter: Subject<any> = new Subject();
   @Output() SystemInformationEventEmitter: Subject<any> = new Subject();
+  @Output() WorkerDialogEventEmitter: Subject<any> = new Subject();
+
 
   subject = webSocket({ url: API_ENDPOINT, protocol: API_PROTOCOL });
 
@@ -34,16 +36,20 @@ export class SupervisorService {
       case 'system_information':
         this.SystemInformationEventEmitter.next(message['payload'])
         break;
+      case 'worker_detail':
+        this.WorkerDialogEventEmitter.next(message['payload'])
+        break;
       case 'library':
 
         break;
     }
   }
 
-  requestUpdate(module: string) {
+  requestUpdate(module: string, payload: any = '') {
     let newMessage = {
       type: "update_request",
-      module: module
+      module: module,
+      payload: payload
     }
     console.log('Sending: ' + JSON.stringify(newMessage))
     this.subject.next(JSON.stringify(newMessage))
