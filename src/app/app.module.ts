@@ -24,6 +24,12 @@ import { SystemInformationComponent } from './system-information/system-informat
 import { LoadingBarComponent } from './loading-bar/loading-bar.component';
 import { WorkerDetailsDialogComponent } from './overview/worker-details-dialog/worker-details-dialog.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatFormFieldModule} from '@angular/material/form-field'; 
+import {MatInputModule} from '@angular/material/input';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { EngineDetailDialogComponent } from './engine-detail-dialog/engine-detail-dialog.component';
+import {GojsAngularModule} from 'gojs-angular';
+import { EngineListComponent } from './engine-list/engine-list.component'
 
 @NgModule({
   declarations: [
@@ -36,7 +42,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     AggregatorsComponent,
     SystemInformationComponent,
     LoadingBarComponent,
-    WorkerDetailsDialogComponent
+    WorkerDetailsDialogComponent,
+    EngineDetailDialogComponent,
+    EngineListComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +61,10 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatDialogModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSnackBarModule,
+    GojsAngularModule,
 
   ],
   providers: [],

@@ -1,0 +1,20 @@
+<h1>[{{data.name}}] eGSM</h1>
+<gojs-diagram
+  [initDiagram]='initDiagram'
+  [nodeDataArray]='state.diagramNodeData'
+  [linkDataArray]='state.diagramLinkData'
+  [modelData]='state.diagramModelData'
+  [skipsDiagramUpdate]='state.skipsDiagramUpdate'
+  (modelChange)='diagramModelChange($event)'
+  [divClassName]='diagramDivClassName'>
+</gojs-diagram>
+
+<gojs-palette
+  [initPalette]='initPalette'
+  [nodeDataArray]='state.paletteNodeData'
+  [divClassName]='paletteDivClassName'>
+</gojs-palette>
+
+<div mat-dialog-actions>
+    <button mat-button (click)="onCloseClick()">Close</button>
+</div>
