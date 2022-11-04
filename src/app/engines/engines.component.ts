@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { EngineListComponent } from '../engine-list/engine-list.component';
+import { LoadingService } from '../loading.service';
+import { SupervisorService } from '../supervisor.service';
 
+const MODULE_STORAGE_KEY = 'process_search'
 
 @Component({
   selector: 'app-engines',
@@ -8,23 +12,46 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./engines.component.scss']
 })
 export class EnginesComponent implements OnInit {
+  eventSubscription: any
+  currentProcessId: string = ""
+  isResult: boolean = false
+  @ViewChild('engines') engineList: EngineListComponent
 
-  currentEngineName:string = ""
-  
-  constructor(private _snackBar: MatSnackBar) { }
+  constructor(private supervisorService: SupervisorService, private snackBar: MatSnackBar, private loadingService: LoadingService) {
+    this.eventSubscription = this.supervisorService.ProcessSearchEventEmitter.subscribe((update: any) => {
+      this.applyUpdate(update)
+    })
+  }
 
 
   ngOnInit(): void {
   }
 
-  onSearch(instance_id:any){
-    this._snackBar.open(`The requested Process Instance does not found!`, "Hide");
+  applyUpdate(update: any) {
+    this.loadingService.setLoadningState(false)
+    if (update['engines'].length > 0) {
+      this.engineList.update(update['engines'])
+      this.isResult = true
+    }
+    else {
+      this.snackBar.open(`The requested Process Instance does not found!`, "Hide");
+      this.isResult = false
+    }
   }
 
-  getEngineData(){
-    if(this.currentEngineName.length > 0){
+  onSearch(instance_id: any) {
+    this.snackBar.dismiss()
+    this.currentProcessId = instance_id
+    this.requestEngineData()
+  }
 
+  requestEngineData() {
+    this.loadingService.setLoadningState(true)
+    var payload = {
+      process_instance_id: this.currentProcessId
     }
+    this.supervisorService.requestUpdate(MODULE_STORAGE_KEY, payload)
+
   }
 
 }

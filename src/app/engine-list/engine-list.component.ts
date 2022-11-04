@@ -9,8 +9,10 @@ import { EngineDetailDialogComponent } from '../engine-detail-dialog/engine-deta
   templateUrl: './engine-list.component.html',
   styleUrls: ['./engine-list.component.scss']
 })
+
 export class EngineListComponent implements OnInit {
-  isLoading = true
+  @Input() hasSpinningBar:boolean
+  isLoading = false
   dataSource = new MatTableDataSource<EngineElement>([]);
   displayedColumns: string[] = ['index', 'type', 'perspective', 'name', 'time', 'status', 'button'];
   constructor(public dialog: MatDialog) { }
@@ -18,11 +20,11 @@ export class EngineListComponent implements OnInit {
   @ViewChild(MatPaginator) enginePaginator: MatPaginator;
 
   ngAfterViewInit() {
-    //this.dataSource.data = []
     this.dataSource.paginator = this.enginePaginator;
   }
 
   ngOnInit(): void {
+    this.isLoading = this.hasSpinningBar
   }
 
   update(newData:EngineElement[]){

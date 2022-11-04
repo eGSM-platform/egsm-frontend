@@ -13,7 +13,7 @@ export class SupervisorService {
   @Output() OverviewEventEmitter: Subject<any> = new Subject();
   @Output() SystemInformationEventEmitter: Subject<any> = new Subject();
   @Output() WorkerDialogEventEmitter: Subject<any> = new Subject();
-
+  @Output() ProcessSearchEventEmitter: Subject<any> = new Subject()
 
   subject = webSocket({ url: API_ENDPOINT, protocol: API_PROTOCOL });
 
@@ -38,6 +38,9 @@ export class SupervisorService {
         break;
       case 'worker_detail':
         this.WorkerDialogEventEmitter.next(message['payload'])
+        break;
+      case 'process_search':
+        this.ProcessSearchEventEmitter.next(message['payload'])
         break;
       case 'library':
 
