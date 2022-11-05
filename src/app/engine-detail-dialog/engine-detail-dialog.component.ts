@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from '../overview/worker-details-dialog/worker-details-dialog.component';
 
 import * as go from 'gojs';
+import { EngineElement } from '../engine-list/engine-list.component';
 
 @Component({
   selector: 'app-engine-detail-dialog',
@@ -13,7 +14,7 @@ import * as go from 'gojs';
 
 export class EngineDetailDialogComponent implements OnInit {
 
-  constructor( public dialogRef: MatDialogRef<EngineDetailDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+  constructor( public dialogRef: MatDialogRef<EngineDetailDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: EngineElement) { }
 
   ngOnInit(): void {
   }
@@ -102,6 +103,11 @@ public initPalette(): go.Palette {
 
 onCloseClick(){
   this.dialogRef.close();
+}
+
+onOpenegsm(){
+  var url = 'http://' + this.data.worker_host + ':' + this.data.worker_api_port + '/?engine_id=' + this.data.name
+  window.open(url, "_blank");
 }
 
 }

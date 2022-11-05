@@ -14,7 +14,7 @@ export class EngineListComponent implements OnInit {
   @Input() hasSpinningBar:boolean
   isLoading = false
   dataSource = new MatTableDataSource<EngineElement>([]);
-  displayedColumns: string[] = ['index', 'type', 'perspective', 'name', 'time', 'status', 'button'];
+  displayedColumns: string[] = ['index', 'type', 'perspective', 'name', 'time', 'status', 'worker_host', 'worker_api_port', 'button'];
   constructor(public dialog: MatDialog) { }
 
   @ViewChild(MatPaginator) enginePaginator: MatPaginator;
@@ -32,13 +32,11 @@ export class EngineListComponent implements OnInit {
     this.dataSource.data = newData
   }
 
-  navigateToEngine(name: any): void {
+  navigateToEngine(element: any): void {
     const dialogRef = this.dialog.open(EngineDetailDialogComponent, {
       width: '100%',
       height: '100%',
-      data: {
-        name: name,
-      }
+      data: element
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -56,5 +54,7 @@ export interface EngineElement {
   type: string,
   perspective: string,
   uptime: string,
-  status: string
+  status: string,
+  worker_host: string,
+  worker_api_port:Number
 }

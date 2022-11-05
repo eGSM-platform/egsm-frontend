@@ -67,7 +67,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     console.log("navigate: " + name)
 
     const dialogRef = this.dialog.open(WorkerDetailsDialogComponent, {
-      width: '850px',
+      width: '1000px',
       data: {
         name: name,
       }
