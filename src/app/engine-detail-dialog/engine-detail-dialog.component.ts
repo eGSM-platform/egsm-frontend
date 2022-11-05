@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DialogData } from '../overview/worker-details-dialog/worker-details-dialog.component';
+import { WorkerDetailDialogData } from '../overview/worker-details-dialog/worker-details-dialog.component';
 
 import * as go from 'gojs';
 import { EngineElement } from '../engine-list/engine-list.component';
@@ -99,10 +99,6 @@ public initPalette(): go.Palette {
     });
 
   return palette;
-}
-
-onCloseClick(){
-  this.dialogRef.close();
 }
 
 onOpenegsm(){

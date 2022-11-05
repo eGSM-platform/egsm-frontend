@@ -14,6 +14,8 @@ export class SupervisorService {
   @Output() SystemInformationEventEmitter: Subject<any> = new Subject();
   @Output() WorkerDialogEventEmitter: Subject<any> = new Subject();
   @Output() ProcessSearchEventEmitter: Subject<any> = new Subject()
+  @Output() LibraryEventEmitter: Subject<any> = new Subject()
+  @Output() NewProcessInstaceEventEmitter: Subject<any> = new Subject()
 
   subject = webSocket({ url: API_ENDPOINT, protocol: API_PROTOCOL });
 
@@ -42,8 +44,11 @@ export class SupervisorService {
       case 'process_search':
         this.ProcessSearchEventEmitter.next(message['payload'])
         break;
-      case 'library':
-
+      case 'process_library':
+        this.LibraryEventEmitter.next(message['payload'])
+        break;
+      case 'new_process_instance':
+        this.NewProcessInstaceEventEmitter.next(message['payload'])
         break;
     }
   }
@@ -51,6 +56,16 @@ export class SupervisorService {
   requestUpdate(module: string, payload: any = '') {
     let newMessage = {
       type: "update_request",
+      module: module,
+      payload: payload
+    }
+    console.log('Sending: ' + JSON.stringify(newMessage))
+    this.subject.next(JSON.stringify(newMessage))
+  }
+
+  sendCommand(module: string, payload: any = '') {
+    let newMessage = {
+      type: "command",
       module: module,
       payload: payload
     }

@@ -29,7 +29,10 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { EngineDetailDialogComponent } from './engine-detail-dialog/engine-detail-dialog.component';
 import {GojsAngularModule} from 'gojs-angular';
-import { EngineListComponent } from './engine-list/engine-list.component'
+import { EngineListComponent } from './engine-list/engine-list.component';
+import { NewProcessInstanceDialogComponent } from './library/new-process-instance-dialog/new-process-instance-dialog.component'
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -44,7 +47,8 @@ import { EngineListComponent } from './engine-list/engine-list.component'
     LoadingBarComponent,
     WorkerDetailsDialogComponent,
     EngineDetailDialogComponent,
-    EngineListComponent
+    EngineListComponent,
+    NewProcessInstanceDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -65,6 +69,9 @@ import { EngineListComponent } from './engine-list/engine-list.component'
     MatInputModule,
     MatSnackBarModule,
     GojsAngularModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatSlideToggleModule,
 
   ],
   providers: [],

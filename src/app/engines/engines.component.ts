@@ -34,7 +34,7 @@ export class EnginesComponent implements OnInit {
       this.isResult = true
     }
     else {
-      this.snackBar.open(`The requested Process Instance does not found!`, "Hide");
+      this.snackBar.open(`The requested Process Instance does not found!`, "Hide", {duration:2000});
       this.isResult = false
     }
   }

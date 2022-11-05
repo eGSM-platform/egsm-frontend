@@ -20,7 +20,7 @@ const MODULE_STORAGE_KEY = 'worker_detail'
 export class WorkerDetailsDialogComponent implements AfterViewInit {
   eventSubscription: any
 
-  constructor(public dialog: MatDialog, private router: Router, public dialogRef: MatDialogRef<WorkerDetailsDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  constructor(public dialog: MatDialog, private router: Router, public dialogRef: MatDialogRef<WorkerDetailsDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: WorkerDetailDialogData,
     private supervisorService: SupervisorService, private storageService: StorageServiceService,) {
     this.eventSubscription = this.supervisorService.WorkerDialogEventEmitter.subscribe((update: any) => {
       this.applyUpdate(update)
@@ -41,12 +41,8 @@ export class WorkerDetailsDialogComponent implements AfterViewInit {
     console.log(update)
     this.engineList.update(update['engines'])
   }
-
-  onCloseClick(): void {
-    this.dialogRef.close();
-  }
 }
 
-export interface DialogData {
+export interface WorkerDetailDialogData {
   name: string;
 }
