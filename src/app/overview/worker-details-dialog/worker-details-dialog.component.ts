@@ -1,43 +1,52 @@
+import { Platform } from '@angular/cdk/platform';
 import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { WorkerElement } from '../overview.component';
+import { Router } from '@angular/router';
+import { EngineDetailDialogComponent } from 'src/app/engine-detail-dialog/engine-detail-dialog.component';
+import { EngineElement, EngineListComponent } from 'src/app/engine-list/engine-list.component';
+import { StorageServiceService } from 'src/app/storage-service.service';
+import { SupervisorService } from 'src/app/supervisor.service';
+
+const MODULE_STORAGE_KEY = 'worker_detail'
 
 @Component({
   selector: 'app-worker-details-dialog',
   templateUrl: './worker-details-dialog.component.html',
   styleUrls: ['./worker-details-dialog.component.scss']
 })
+
 export class WorkerDetailsDialogComponent implements AfterViewInit {
-  displayedColumns: string[] = ['index', 'type', 'id', 'time', 'status'];
-  dataSource = new MatTableDataSource<WorkerElement>(ENGINE_ELEMENT_DATA);
+  eventSubscription: any
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  constructor(public dialog: MatDialog, private router: Router, public dialogRef: MatDialogRef<WorkerDetailsDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private supervisorService: SupervisorService, private storageService: StorageServiceService,) {
+    this.eventSubscription = this.supervisorService.WorkerDialogEventEmitter.subscribe((update: any) => {
+      this.applyUpdate(update)
+    })
+    var payload = { "worker_name": data.name }
+    this.supervisorService.requestUpdate(MODULE_STORAGE_KEY, payload)
+  }
+  ngAfterViewInit(): void {
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    //this.aggregatordataSource.paginator = this.aggregatorPaginator;
   }
 
-  constructor(
-    public dialogRef: MatDialogRef<WorkerDetailsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+  @ViewChild("engines") engineList:EngineListComponent;
+  //@ViewChild(MatPaginator) enginePaginator: MatPaginator;
 
-  onNoClick(): void {
+
+  applyUpdate(update: any) {
+    console.log('WORKER DETAIL UOPDATE RECEIVED: ')
+    console.log(update)
+    this.engineList.update(update['engines'])
+  }
+
+  onCloseClick(): void {
     this.dialogRef.close();
   }
-
 }
 
 export interface DialogData {
   name: string;
 }
-
-
-const ENGINE_ELEMENT_DATA: WorkerElement[] = [
-// { index: 1, name: 'Worker_1', engine_mumber: 7, capacity: 50, uptime: "00:00" },
-// { index: 2, name: 'Worker_2', engine_mumber: 1, capacity: 50, uptime: "00:00" },
-// { index: 3, name: 'Worker_3', engine_mumber: 0, capacity: 50, uptime: "00:00" },
-// { index: 4, name: 'Worker_4', engine_mumber: 11, capacity: 50, uptime: "00:00" },
-];

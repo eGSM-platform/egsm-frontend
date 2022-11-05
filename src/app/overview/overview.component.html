@@ -76,7 +76,7 @@
 
         <!-- Name Column -->
         <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> Worker Name </th>
+            <th mat-header-cell *matHeaderCellDef> Aggregator Name </th>
             <td mat-cell *matCellDef="let element"> {{element.name}} </td>
         </ng-container>
 
@@ -90,6 +90,17 @@
         <ng-container matColumnDef="time">
             <th mat-header-cell *matHeaderCellDef> Up-time </th>
             <td mat-cell *matCellDef="let element"> {{element.uptime}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="hostname">
+            <th mat-header-cell *matHeaderCellDef> Hostname </th>
+            <td mat-cell *matCellDef="let element"> {{element.hostname}} </td>
+        </ng-container>
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="port">
+            <th mat-header-cell *matHeaderCellDef> REST API port </th>
+            <td mat-cell *matCellDef="let element"> {{element.port}} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="aggregatorDisplayedColumns"></tr>
