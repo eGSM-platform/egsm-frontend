@@ -1,6 +1,6 @@
-import { Injectable, EventEmitter, Output } from '@angular/core';
+import { Injectable, Output } from '@angular/core';
 import { Subject } from 'rxjs';
-import { webSocket, WebSocketSubject, WebSocketSubjectConfig } from 'rxjs/webSocket';
+import { webSocket } from 'rxjs/webSocket';
 
 const API_ENDPOINT = 'ws://localhost:8080'
 const API_PROTOCOL = 'data-connection'
@@ -14,6 +14,8 @@ export class SupervisorService {
   @Output() SystemInformationEventEmitter: Subject<any> = new Subject();
   @Output() WorkerDialogEventEmitter: Subject<any> = new Subject();
   @Output() ProcessSearchEventEmitter: Subject<any> = new Subject()
+  @Output() LibraryEventEmitter: Subject<any> = new Subject()
+  @Output() NewProcessInstaceEventEmitter: Subject<any> = new Subject()
 
   subject = webSocket({ url: API_ENDPOINT, protocol: API_PROTOCOL });
 
@@ -26,24 +28,24 @@ export class SupervisorService {
   }
 
   messageHandler(msg: any) {
-    console.log(msg)
-    var message = msg//JSON.parse(msg)
-    console.log(message)
-    switch (message['module']) {
+    switch (msg['module']) {
       case 'overview':
-        this.OverviewEventEmitter.next(message['payload'])
+        this.OverviewEventEmitter.next(msg['payload'])
         break;
       case 'system_information':
-        this.SystemInformationEventEmitter.next(message['payload'])
+        this.SystemInformationEventEmitter.next(msg['payload'])
         break;
       case 'worker_detail':
-        this.WorkerDialogEventEmitter.next(message['payload'])
+        this.WorkerDialogEventEmitter.next(msg['payload'])
         break;
       case 'process_search':
-        this.ProcessSearchEventEmitter.next(message['payload'])
+        this.ProcessSearchEventEmitter.next(msg['payload'])
         break;
-      case 'library':
-
+      case 'process_library':
+        this.LibraryEventEmitter.next(msg['payload'])
+        break;
+      case 'new_process_instance':
+        this.NewProcessInstaceEventEmitter.next(msg['payload'])
         break;
     }
   }
@@ -54,8 +56,15 @@ export class SupervisorService {
       module: module,
       payload: payload
     }
-    console.log('Sending: ' + JSON.stringify(newMessage))
     this.subject.next(JSON.stringify(newMessage))
   }
 
+  sendCommand(module: string, payload: any = '') {
+    let newMessage = {
+      type: "command",
+      module: module,
+      payload: payload
+    }
+    this.subject.next(JSON.stringify(newMessage))
+  }
 }

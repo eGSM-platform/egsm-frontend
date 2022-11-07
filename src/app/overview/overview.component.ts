@@ -1,8 +1,8 @@
 import { LocalizedString } from '@angular/compiler';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { AfterViewInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { LoadingService } from '../loading.service';
@@ -31,7 +31,6 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   constructor(public dialog: MatDialog, private supervisorService: SupervisorService, private storageService: StorageServiceService, private loadingService: LoadingService) {
     if (this.storageService.hasKey(MODULE_STORAGE_KEY)) {
       this.eventSubscription = this.storageService.getSubject(MODULE_STORAGE_KEY).subscribe((update: any) => {
-        console.log('Overview update received')
         this.applyUpdate(update)
       })
       this.storageService.triggerUpdate(MODULE_STORAGE_KEY)
@@ -41,7 +40,6 @@ export class OverviewComponent implements OnInit, AfterViewInit {
       this.storageService.addValue(MODULE_STORAGE_KEY, this.supervisorService.OverviewEventEmitter)
       this.WORKER_ELEMENT_DATA = []
       this.eventSubscription = this.storageService.getSubject(MODULE_STORAGE_KEY).subscribe((update: any) => {
-        console.log('Overview update received')
         this.applyUpdate(update)
       })
       this.supervisorService.requestUpdate(MODULE_STORAGE_KEY)
@@ -49,11 +47,9 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   }
 
   @ViewChild(MatPaginator) enginePaginator: MatPaginator;
-  //@ViewChild(MatPaginator) aggregatorPaginator: MatPaginator;
 
   ngAfterViewInit() {
     this.enginedataSource.paginator = this.enginePaginator;
-    //this.aggregatordataSource.paginator = this.aggregatorPaginator;
   }
 
   ngOnInit() {
@@ -65,7 +61,6 @@ export class OverviewComponent implements OnInit, AfterViewInit {
 
   openDialog(name: LocalizedString) {
     console.log("navigate: " + name)
-
     const dialogRef = this.dialog.open(WorkerDetailsDialogComponent, {
       width: '1000px',
       data: {
@@ -79,8 +74,6 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   }
 
   applyUpdate(update: any) {
-    console.log('aggregators update:' + update)
-    console.log(update['aggregators'])
     this.WORKER_ELEMENT_DATA = update['workers']
     this.enginedataSource.data = this.WORKER_ELEMENT_DATA
     //this.enginedataSource = new MatTableDataSource<WorkerElement>(this.WORKER_ELEMENT_DATA);

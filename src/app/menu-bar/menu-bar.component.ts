@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,15 +6,11 @@ import { Router } from '@angular/router';
   templateUrl: './menu-bar.component.html',
   styleUrls: ['./menu-bar.component.scss']
 })
-export class MenuBarComponent implements OnInit {
+export class MenuBarComponent {
 
   constructor(private router: Router) { }
 
-  ngOnInit(): void {
-  }
-
-  onMenuClick(par:string): void {
-    console.log("navigate: " + par)
+  onMenuClick(par: string): void {
     this.router.navigate(['/' + par]);
   }
 
