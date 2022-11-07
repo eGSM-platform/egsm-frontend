@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class StorageServiceService implements OnInit, OnDestroy {
+export class StorageServiceService implements OnDestroy {
   storage: Map<string, any>
   subscriptions: Map<string, any>
   eventEmitters: Map<string, any>
@@ -13,10 +13,6 @@ export class StorageServiceService implements OnInit, OnDestroy {
     this.storage = new Map<string, string>()
     this.subscriptions = new Map<string, any>()
     this.eventEmitters = new Map<string, any>()
-  }
-
-  ngOnInit(): void {
-
   }
 
   ngOnDestroy(): void {
@@ -31,7 +27,6 @@ export class StorageServiceService implements OnInit, OnDestroy {
   addValue(key: string, subject: Subject<any>): void {
     this.storage.set(key, undefined)
     this.subscriptions.set(key, subject.subscribe((update: any) => {
-      console.log('Storage received and update for ' + key)
       this.messageHandler(key, update)
     }))
     this.eventEmitters.set(key, new Subject<any>())

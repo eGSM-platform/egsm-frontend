@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EngineListComponent } from '../engine-list/engine-list.component';
 import { LoadingService } from '../loading.service';
@@ -11,20 +11,17 @@ const MODULE_STORAGE_KEY = 'process_search'
   templateUrl: './engines.component.html',
   styleUrls: ['./engines.component.scss']
 })
-export class EnginesComponent implements OnInit {
+export class EnginesComponent {
   eventSubscription: any
   currentProcessId: string = ""
   isResult: boolean = false
+
   @ViewChild('engines') engineList: EngineListComponent
 
   constructor(private supervisorService: SupervisorService, private snackBar: MatSnackBar, private loadingService: LoadingService) {
     this.eventSubscription = this.supervisorService.ProcessSearchEventEmitter.subscribe((update: any) => {
       this.applyUpdate(update)
     })
-  }
-
-
-  ngOnInit(): void {
   }
 
   applyUpdate(update: any) {
@@ -34,7 +31,7 @@ export class EnginesComponent implements OnInit {
       this.isResult = true
     }
     else {
-      this.snackBar.open(`The requested Process Instance does not found!`, "Hide", {duration:2000});
+      this.snackBar.open(`The requested Process Instance does not found!`, "Hide", { duration: 2000 });
       this.isResult = false
     }
   }
@@ -51,7 +48,6 @@ export class EnginesComponent implements OnInit {
       process_instance_id: this.currentProcessId
     }
     this.supervisorService.requestUpdate(MODULE_STORAGE_KEY, payload)
-
   }
 
 }

@@ -14,7 +14,6 @@ export class LoadingBarComponent implements OnInit {
   ngOnInit(): void {
     this.loadingService.getLoadningState().subscribe(
       state => {
-        console.log("New loading state detected:" + state);
         this.isProgress = state;
       }
     )

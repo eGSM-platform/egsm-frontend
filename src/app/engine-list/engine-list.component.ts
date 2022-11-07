@@ -11,7 +11,7 @@ import { EngineDetailDialogComponent } from '../engine-detail-dialog/engine-deta
 })
 
 export class EngineListComponent implements OnInit {
-  @Input() hasSpinningBar:boolean
+  @Input() hasSpinningBar: boolean
   isLoading = false
   dataSource = new MatTableDataSource<EngineElement>([]);
   displayedColumns: string[] = ['index', 'type', 'perspective', 'name', 'time', 'status', 'worker_host', 'worker_api_port', 'button'];
@@ -27,7 +27,7 @@ export class EngineListComponent implements OnInit {
     this.isLoading = this.hasSpinningBar
   }
 
-  update(newData:EngineElement[]){
+  update(newData: EngineElement[]) {
     this.isLoading = false
     this.dataSource.data = newData
   }
@@ -42,10 +42,7 @@ export class EngineListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
-    //this.router.navigate(['/engines']);
-    //this.dialogRef.close();
   }
-
 }
 
 export interface EngineElement {
@@ -56,5 +53,5 @@ export interface EngineElement {
   uptime: string,
   status: string,
   worker_host: string,
-  worker_api_port:Number
+  worker_api_port: Number
 }

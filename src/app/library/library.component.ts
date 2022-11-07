@@ -1,10 +1,9 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { LoadingService } from '../loading.service';
 import { NewProcessInstanceDialogComponent } from './new-process-instance-dialog/new-process-instance-dialog.component';
-import { WorkerElement } from '../overview/overview.component';
 import { StorageServiceService } from '../storage-service.service';
 import { SupervisorService } from '../supervisor.service';
 
@@ -24,7 +23,6 @@ export class LibraryComponent implements AfterViewInit {
   constructor(public dialog: MatDialog, private supervisorService: SupervisorService, private storageService: StorageServiceService, private loadingService: LoadingService) {
     if (this.storageService.hasKey(MODULE_STORAGE_KEY)) {
       this.eventSubscription = this.storageService.getSubject(MODULE_STORAGE_KEY).subscribe((update: any) => {
-        console.log('Library update received')
         this.applyUpdate(update)
       })
       this.storageService.triggerUpdate(MODULE_STORAGE_KEY)
@@ -33,7 +31,6 @@ export class LibraryComponent implements AfterViewInit {
       loadingService.setLoadningState(true)
       this.storageService.addValue(MODULE_STORAGE_KEY, this.supervisorService.LibraryEventEmitter)
       this.eventSubscription = this.storageService.getSubject(MODULE_STORAGE_KEY).subscribe((update: any) => {
-        console.log('Library update received')
         this.applyUpdate(update)
       })
       this.supervisorService.requestUpdate(MODULE_STORAGE_KEY)
@@ -51,8 +48,6 @@ export class LibraryComponent implements AfterViewInit {
   }
 
   applyUpdate(update: any) {
-    console.log("PROCESS TYPES UPD")
-    console.log(update)
     this.dataSource.data = update['process_types']
     this.loadingService.setLoadningState(false)
   }
@@ -69,13 +64,6 @@ export class LibraryComponent implements AfterViewInit {
       console.log('The dialog was closed');
     });
   }
-
-  /*createNewInstance(process_type_name: string) {
-    var payload = {
-      process_type: 
-    }
-    this.supervisorService.sendCommand(MODULE_STORAGE_KEY)
-  }*/
 }
 
 

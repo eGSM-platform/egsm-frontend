@@ -22,7 +22,6 @@ export class SystemInformationComponent implements OnInit {
   ngOnInit(): void {
     if (this.storageService.hasKey(MODULE_STORAGE_KEY)) {
       this.eventSubscription = this.storageService.getSubject(MODULE_STORAGE_KEY).subscribe((update: any) => {
-        console.log('System information update received')
         this.applyUpdate(update)
       })
       this.storageService.triggerUpdate(MODULE_STORAGE_KEY)
@@ -33,7 +32,6 @@ export class SystemInformationComponent implements OnInit {
       this.workerNumber = 0
       this.aggregatorNumber = 0
       this.eventSubscription = this.storageService.getSubject(MODULE_STORAGE_KEY).subscribe((update: any) => {
-        console.log('System information update received')
         this.applyUpdate(update)
       })
       this.supervisorService.requestUpdate(MODULE_STORAGE_KEY)
@@ -44,7 +42,6 @@ export class SystemInformationComponent implements OnInit {
     this.systemUpTime = update['system_up_time']
     this.workerNumber = update['worker_number']
     this.aggregatorNumber = update['aggregator_number']
-    console.log(this.systemUpTime)
   }
 
   ngOnDestroy() {

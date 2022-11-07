@@ -1,6 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingService } from '../../loading.service';
@@ -13,42 +11,38 @@ const MODULE_STORAGE_KEY = 'new_process_instance'
   templateUrl: './new-process-instance-dialog.component.html',
   styleUrls: ['./new-process-instance-dialog.component.scss']
 })
-export class NewProcessInstanceDialogComponent implements OnInit {
+export class NewProcessInstanceDialogComponent {
   eventSubscription: any
-  constructor(public dialogRef: MatDialogRef<NewProcessInstanceDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: NewProcessInstanceDialogData, private loadingService: LoadingService, private snackBar: MatSnackBar, private supervisorService: SupervisorService) {
+  constructor(public dialogRef: MatDialogRef<NewProcessInstanceDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: NewProcessInstanceDialogData,
+    private loadingService: LoadingService, private snackBar: MatSnackBar, private supervisorService: SupervisorService) {
     this.eventSubscription = this.supervisorService.NewProcessInstaceEventEmitter.subscribe((update: any) => {
       this.applyUpdate(update)
     })
   }
 
-  ngOnInit(): void {
-  }
-
-  applyUpdate(update:any){
-    console.log("UPDATEEEE")
-    console.log(update)
+  applyUpdate(update: any) {
     this.loadingService.setLoadningState(false)
-    if(update['result'] == 'ok'){
-      this.snackBar.open(`Process created successfully`, "Hide", {duration:2000});
+    if (update['result'] == 'ok') {
+      this.snackBar.open(`Process created successfully`, "Hide", { duration: 2000 });
       this.dialogRef.close()
     }
-    else if(update['result'] == 'id_not_free'){
-      this.snackBar.open(`A process instance with this ID is already exist! Creation could not be finished`, "Hide", {duration:2000});
+    else if (update['result'] == 'id_not_free') {
+      this.snackBar.open(`A process instance with this ID is already exist! Creation could not be finished`, "Hide", { duration: 2000 });
     }
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.eventSubscription.unsubscribe()
   }
 
   onCreate(instance_name: string) {
     this.snackBar.dismiss()
     this.loadingService.setLoadningState(true)
-    if(instance_name.includes('__') || instance_name.includes('/') || instance_name.includes('#')){
-      this.snackBar.open(`Invalid id (Can't contain: "__", "/" or "#" )`, "Hide", {duration:2000});
+    if (instance_name.includes('__') || instance_name.includes('/') || instance_name.includes('#')) {
+      this.snackBar.open(`Invalid id (Can't contain: "__", "/" or "#" )`, "Hide", { duration: 2000 });
       this.loadingService.setLoadningState(false)
     }
-    else{
+    else {
       var payload = {
         instance_name: instance_name,
         process_type: this.data.process_type_name
@@ -56,7 +50,6 @@ export class NewProcessInstanceDialogComponent implements OnInit {
       this.supervisorService.sendCommand(MODULE_STORAGE_KEY, payload)
     }
   }
-
 }
 
 export interface NewProcessInstanceDialogData {
