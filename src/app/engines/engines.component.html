@@ -20,6 +20,7 @@
     <h2>Included Process Engines</h2>
     <div class="mat-elevation-z8">
         <app-engine-list [hasSpinningBar]="false" #engines></app-engine-list>
+        <button mat-raised-button (click) = "onDeleteProcess()"color="warn">Delete Process</button>
     </div>
 
     <br>

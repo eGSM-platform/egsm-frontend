@@ -1,5 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DeleteProcessDialogComponent } from '../delete-process-dialog/delete-process-dialog.component';
 import { EngineListComponent } from '../engine-list/engine-list.component';
 import { LoadingService } from '../loading.service';
 import { SupervisorService } from '../supervisor.service';
@@ -18,7 +20,7 @@ export class EnginesComponent {
 
   @ViewChild('engines') engineList: EngineListComponent
 
-  constructor(private supervisorService: SupervisorService, private snackBar: MatSnackBar, private loadingService: LoadingService) {
+  constructor(private supervisorService: SupervisorService, private snackBar: MatSnackBar, private loadingService: LoadingService, public deleteProcessDialog: MatDialog) {
     this.eventSubscription = this.supervisorService.ProcessSearchEventEmitter.subscribe((update: any) => {
       this.applyUpdate(update)
     })
@@ -40,6 +42,26 @@ export class EnginesComponent {
     this.snackBar.dismiss()
     this.currentProcessId = instance_id
     this.requestEngineData()
+  }
+
+  onDeleteProcess() {
+    const dialogRef = this.deleteProcessDialog.open(DeleteProcessDialogComponent,
+      {
+        width: '500px',
+        data: {
+          processId: this.currentProcessId,
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result =>{
+        if(result){
+          //TODO: Add RPC here!
+          console.log("Delete process")
+        }
+        else{
+          console.log("NOT delete process")
+        }
+      })
   }
 
   requestEngineData() {

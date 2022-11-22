@@ -62,7 +62,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   openDialog(name: LocalizedString) {
     console.log("navigate: " + name)
     const dialogRef = this.dialog.open(WorkerDetailsDialogComponent, {
-      width: '1000px',
+      width: '1300px',
       data: {
         name: name,
       }

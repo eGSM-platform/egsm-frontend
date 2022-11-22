@@ -33,6 +33,7 @@ import { EngineListComponent } from './engine-list/engine-list.component';
 import { NewProcessInstanceDialogComponent } from './library/new-process-instance-dialog/new-process-instance-dialog.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { DeleteProcessDialogComponent } from './delete-process-dialog/delete-process-dialog.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     WorkerDetailsDialogComponent,
     EngineDetailDialogComponent,
     EngineListComponent,
-    NewProcessInstanceDialogComponent
+    NewProcessInstanceDialogComponent,
+    DeleteProcessDialogComponent
   ],
   imports: [
     BrowserModule,
