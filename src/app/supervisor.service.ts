@@ -38,7 +38,7 @@ export class SupervisorService {
       case 'worker_detail':
         this.WorkerDialogEventEmitter.next(msg['payload'])
         break;
-      case 'process_search':
+      case 'process_operation':
         this.ProcessSearchEventEmitter.next(msg['payload'])
         break;
       case 'process_library':
