@@ -29,6 +29,9 @@ export class NewProcessInstanceDialogComponent {
     else if (update['result'] == 'id_not_free') {
       this.snackBar.open(`A process instance with this ID is already exist! Creation could not be finished`, "Hide", { duration: 2000 });
     }
+    else if (update['result'] == 'backend_error') {
+      this.snackBar.open(`Backend error while creating the process instance. Probably not all required eGSM engine and/or BPMN model has been created!`, "Hide", { duration: 2000 });
+    }
   }
 
   ngOnDestroy() {

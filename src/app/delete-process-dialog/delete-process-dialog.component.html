@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Delete Process Instance</h1>
+<div mat-dialog-content>
+    Would you like to delete Process Instance [{{processId}}]?
+</div>
+<div mat-dialog-actions>
+    <button mat-button mat-dialog-close cdkFocusInitial (click)="onClick(false)">No</button>
+    <button mat-button mat-dialog-close (click)="onClick(true)" color="warn">Yes</button>
+</div>
