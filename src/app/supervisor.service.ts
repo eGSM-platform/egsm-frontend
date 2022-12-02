@@ -16,6 +16,8 @@ export class SupervisorService {
   @Output() ProcessSearchEventEmitter: Subject<any> = new Subject()
   @Output() LibraryEventEmitter: Subject<any> = new Subject()
   @Output() NewProcessInstaceEventEmitter: Subject<any> = new Subject()
+  @Output() ArtifactInformationEventEmitter: Subject<any> = new Subject()
+  
 
   subject = webSocket({ url: API_ENDPOINT, protocol: API_PROTOCOL });
 
@@ -46,6 +48,10 @@ export class SupervisorService {
         break;
       case 'new_process_instance':
         this.NewProcessInstaceEventEmitter.next(msg['payload'])
+        break;
+      case 'artifact_detail':
+        console.log('ok')
+        this.ArtifactInformationEventEmitter.next(msg['payload'])
         break;
     }
   }

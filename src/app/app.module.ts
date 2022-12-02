@@ -34,6 +34,9 @@ import { NewProcessInstanceDialogComponent } from './library/new-process-instanc
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { DeleteProcessDialogComponent } from './delete-process-dialog/delete-process-dialog.component';
+import { ArtifactsComponent } from './artifacts/artifacts.component';
+import { StakeholdersComponent } from './stakeholders/stakeholders.component';
+import { ArtifactDetailComponent } from './artifact-detail/artifact-detail.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,10 @@ import { DeleteProcessDialogComponent } from './delete-process-dialog/delete-pro
     EngineDetailDialogComponent,
     EngineListComponent,
     NewProcessInstanceDialogComponent,
-    DeleteProcessDialogComponent
+    DeleteProcessDialogComponent,
+    ArtifactsComponent,
+    StakeholdersComponent,
+    ArtifactDetailComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,77 @@
+<h1>Artifacts</h1>
+
+<div class="mat-elevation-z8">
+    <mat-card class="input">
+        <mat-card-title>Create new Artifact</mat-card-title>
+        <mat-form-field appearance="fill">
+            <mat-label>Enter the Artifact type</mat-label>
+            <input
+                (keyup.enter)="onCreate(new_artifact_type.value, new_artifact_id.value,mqtt_host.value, mqtt_port.value, stakeholders.value )"
+                #new_artifact_type matInput placeholder="Truck" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Enter the Artifact Id</mat-label>
+            <input
+                (keyup.enter)="onCreate(new_artifact_type.value, new_artifact_id.value,mqtt_host.value, mqtt_port.value, stakeholders.value)"
+                #new_artifact_id matInput placeholder="abc-123" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill">
+            <mat-label>Enter MQTT Broker hostname</mat-label>
+            <input
+                (keyup.enter)="onCreate(new_artifact_type.value, new_artifact_id.value,mqtt_host.value, mqtt_port.value, stakeholders.value)"
+                #mqtt_host matInput placeholder="localhost" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Enter MQTT Broker port</mat-label>
+            <input
+                (keyup.enter)="onCreate(new_artifact_type.value, new_artifact_id.value,mqtt_host.value, mqtt_port.value, stakeholders.value)"
+                #mqtt_port matInput placeholder="1883" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field style="min-width : 400px" appearance="fill">
+            <mat-label>Enter Stakeholders (; separated)</mat-label>
+            <input
+                (keyup.enter)="onCreate(new_artifact_type.value, new_artifact_id.value,mqtt_host.value, mqtt_port.value, stakeholders.value)"
+                #stakeholders matInput placeholder="Company1;Company2;..." required>
+        </mat-form-field>
+        <br>
+        <button mat-raised-button
+            (click)="onCreate(new_artifact_type.value, new_artifact_id.value,mqtt_host.value, mqtt_port.value, stakeholders.value)"
+            color="primary">Create</button>
+    </mat-card>
+</div>
+
+<br>
+
+<div class="mat-elevation-z8">
+    <mat-card class="input">
+        <mat-card-title>Search for Artifact</mat-card-title>
+        <div class="artifact-id-container">
+            <mat-form-field appearance="fill">
+                <mat-label>Enter the Artifact type</mat-label>
+                <input (keyup.enter)="onSearch(artifact_type.value, artifact_id.value)" #artifact_type matInput
+                    placeholder="Truck" required>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="fill">
+                <mat-label>Enter the Artifact Id</mat-label>
+                <input (keyup.enter)="onSearch(artifact_type.value, artifact_id.value)" #artifact_id matInput
+                    placeholder="abc-123" required>
+            </mat-form-field>
+            <br>
+            <button mat-raised-button (click)="onSearch(artifact_type.value, artifact_id.value)"
+                color="primary">Search</button>
+        </div>
+    </mat-card>
+</div>
+
+<br>
+
+<div [hidden]="!isResult">
+    <div class="mat-elevation-z8">
+        <app-artifact-detail #artifact_details></app-artifact-detail>
+    </div>
+</div>

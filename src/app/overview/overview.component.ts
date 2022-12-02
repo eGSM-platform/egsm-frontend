@@ -22,7 +22,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   AGGREGATOR_ELEMENT_DATA: AggregatorElement[] = []
 
   engineDisplayedColumns: string[] = ['index', 'name', 'engines', 'capacity', 'time', 'hostname', 'port', 'button'];
-  aggregatorDisplayedColumns: string[] = ['index', 'name', 'activities', 'time', 'hostname', 'port'];
+  aggregatorDisplayedColumns: string[] = ['index', 'name', 'activity_mumber', 'capacity', 'time', 'hostname', 'port'];
   enginedataSource = new MatTableDataSource<WorkerElement>(this.WORKER_ELEMENT_DATA);
   aggregatordataSource = new MatTableDataSource<AggregatorElement>(this.AGGREGATOR_ELEMENT_DATA);
 
@@ -76,20 +76,8 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   applyUpdate(update: any) {
     this.WORKER_ELEMENT_DATA = update['workers']
     this.enginedataSource.data = this.WORKER_ELEMENT_DATA
-    //this.enginedataSource = new MatTableDataSource<WorkerElement>(this.WORKER_ELEMENT_DATA);
-    //this.enginedataSource.paginator = this.enginePaginator;
-    
-    this.AGGREGATOR_ELEMENT_DATA = [
-      { index: 1, name: 'Aggregator_1', activity_mumber: 11, uptime: '00:00', hostname: "localhost",port:8088 },
-      { index: 2, name: 'Aggregator_2', activity_mumber: 11, uptime: '00:00' , hostname: "localhost",port:8088},
-      { index: 3, name: 'Aggregator_3', activity_mumber: 21, uptime: '00:00' , hostname: "localhost",port:8088},
-      { index: 4, name: 'Aggregator_4', activity_mumber: 31, uptime: '00:00' , hostname: "localhost",port:8088},
-      { index: 5, name: 'Aggregator_5', activity_mumber: 15, uptime: '00:00' , hostname: "localhost",port:8088},
-    ]
-    
-    //update['aggregators']
-    this.aggregatordataSource = new MatTableDataSource<AggregatorElement>(this.AGGREGATOR_ELEMENT_DATA);
-    
+    console.log(update['aggregators'])
+    this.aggregatordataSource.data = update['aggregators'];
     this.loadingService.setLoadningState(false)
   }
 }
@@ -108,6 +96,7 @@ export interface AggregatorElement {
   index: number;
   name: string;
   activity_mumber: number;
+  capacity: number,
   uptime: string;
   hostname: string,
   port: number
