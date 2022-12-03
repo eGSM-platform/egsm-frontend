@@ -17,14 +17,14 @@
         <br>
         <mat-form-field appearance="fill">
             <mat-label>Enter MQTT Broker hostname</mat-label>
-            <input
+            <input [readonly]="true" type="text" value = 'localhost' [disabled]="true" 
                 (keyup.enter)="onCreate(new_artifact_type.value, new_artifact_id.value,mqtt_host.value, mqtt_port.value, stakeholders.value)"
                 #mqtt_host matInput placeholder="localhost" required>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
             <mat-label>Enter MQTT Broker port</mat-label>
-            <input
+            <input [readonly]="true" type="text" value = '1883' [disabled]="true" 
                 (keyup.enter)="onCreate(new_artifact_type.value, new_artifact_id.value,mqtt_host.value, mqtt_port.value, stakeholders.value)"
                 #mqtt_port matInput placeholder="1883" required>
         </mat-form-field>
