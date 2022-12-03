@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { LoadingService } from '../loading.service';
+import { Stakeholder } from '../primitives/primitives';
+import { SupervisorService } from '../supervisor.service';
+
+const MODULE_STORAGE_KEY = 'notifications'
 
 @Component({
   selector: 'app-notifications',
@@ -8,38 +15,39 @@ import { FormControl } from '@angular/forms';
 })
 export class NotificationsComponent implements OnInit {
 
+  eventSubscription: any
   stakeholders = new FormControl('');
-  stakeholderList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
-  constructor() { }
+  historical = new FormControl(true);
+  stakeholderList: Stakeholder[]
+
+  constructor(private supervisorService: SupervisorService, private snackBar: MatSnackBar, private loadingService: LoadingService, public deleteProcessDialog: MatDialog) {
+    this.eventSubscription = this.supervisorService.NotificationEventEmitter.subscribe((update: any) => {
+      this.applyUpdate(update)
+    })
+    this.requestStakeholderList()
+    
+  }
 
   ngOnInit(): void {
   }
 
-}
+  onSelect(): void{
+    console.log(this.stakeholders)
+  }
 
-//TODO:VERIFY
-export interface Notification {
-  //index: Number, //Index in the table for visualization
-  timestamp: string,
-  id: string,
+  applyUpdate(update: any) {
+    console.log(update)
+    this.loadingService.setLoadningState(false)
+    if(update['type'] == 'stakeholder_list'){
+      this.stakeholderList = update['stakeholder_list']
+    }
+  }
 
-  notification_type: string,
-  notification_message: string,
-  notification_source_agent: string,
-  notification_source_job: string,
-  notification_addressee: string,
-  
-  process_group: string,
-  processes: Process[],
-}
-
-export interface Process {
-  type: string,
-  id: string,
-  description:string,
-  engines: Engine[]
-}
-
-export interface Engine{
-
+  requestStakeholderList() {
+    this.loadingService.setLoadningState(true)
+    var payload = {
+      type: 'get_stakeholder_list'
+    }
+    this.supervisorService.requestUpdate(MODULE_STORAGE_KEY, payload)
+  }
 }

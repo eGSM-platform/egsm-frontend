@@ -23,7 +23,9 @@ export interface Artifact {
 
 export interface Process {
     name: string;
+    id: string,
     description: string;
+    engines: Engine[]
 }
 
 export interface EGSMWorker {
@@ -49,4 +51,20 @@ export interface Aggregator {
 export interface Stakeholder {
     id: string,
     notificationdetails: string
+}
+
+//TODO:VERIFY
+export interface Notification {
+    //index: Number, //Index in the table for visualization
+    timestamp: string,
+    id: string,
+
+    notification_type: string,
+    notification_message: string,
+    notification_source_agent: string,
+    notification_source_job: string,
+    notification_addressee: string,
+
+    process_group: string,
+    processes: Process[],
 }
