@@ -13,7 +13,7 @@ const MODULE_STORAGE_KEY = 'new_process_instance'
 })
 export class NewProcessInstanceDialogComponent {
   eventSubscription: any
-  constructor(public dialogRef: MatDialogRef<NewProcessInstanceDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: NewProcessInstanceDialogData,
+  constructor(public dialogRef: MatDialogRef<NewProcessInstanceDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
     private loadingService: LoadingService, private snackBar: MatSnackBar, private supervisorService: SupervisorService) {
     this.eventSubscription = this.supervisorService.NewProcessInstaceEventEmitter.subscribe((update: any) => {
       this.applyUpdate(update)
@@ -53,8 +53,4 @@ export class NewProcessInstanceDialogComponent {
       this.supervisorService.sendCommand(MODULE_STORAGE_KEY, payload)
     }
   }
-}
-
-export interface NewProcessInstanceDialogData {
-  process_type_name: string
 }

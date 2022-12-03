@@ -6,6 +6,7 @@ import { LoadingService } from '../loading.service';
 import { NewProcessInstanceDialogComponent } from './new-process-instance-dialog/new-process-instance-dialog.component';
 import { StorageServiceService } from '../storage-service.service';
 import { SupervisorService } from '../supervisor.service';
+import { Process } from '../primitives/primitives';
 
 const MODULE_STORAGE_KEY = 'process_library'
 
@@ -17,7 +18,7 @@ const MODULE_STORAGE_KEY = 'process_library'
 
 export class LibraryComponent implements AfterViewInit {
   displayedColumns: string[] = ['type', 'description', 'button'];
-  dataSource = new MatTableDataSource<ProcessTypeElement>([]);
+  dataSource = new MatTableDataSource<Process>([]);
   eventSubscription: any
 
   constructor(public dialog: MatDialog, private supervisorService: SupervisorService, private storageService: StorageServiceService, private loadingService: LoadingService) {
@@ -64,10 +65,4 @@ export class LibraryComponent implements AfterViewInit {
       console.log('The dialog was closed');
     });
   }
-}
-
-
-export interface ProcessTypeElement {
-  name: string;
-  description: string;
 }

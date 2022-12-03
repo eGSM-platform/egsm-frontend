@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { LoadingService } from '../loading.service';
+import { Aggregator, EGSMWorker } from '../primitives/primitives';
 import { StorageServiceService } from '../storage-service.service';
 import { SupervisorService } from '../supervisor.service';
 import { WorkerDetailsDialogComponent } from './worker-details-dialog/worker-details-dialog.component';
@@ -18,13 +19,13 @@ const MODULE_STORAGE_KEY = 'overview'
   styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements OnInit, AfterViewInit {
-  WORKER_ELEMENT_DATA: WorkerElement[] = []
-  AGGREGATOR_ELEMENT_DATA: AggregatorElement[] = []
+  WORKER_ELEMENT_DATA: EGSMWorker[] = []
+  AGGREGATOR_ELEMENT_DATA: Aggregator[] = []
 
   engineDisplayedColumns: string[] = ['index', 'name', 'engines', 'capacity', 'time', 'hostname', 'port', 'button'];
   aggregatorDisplayedColumns: string[] = ['index', 'name', 'activity_mumber', 'capacity', 'time', 'hostname', 'port'];
-  enginedataSource = new MatTableDataSource<WorkerElement>(this.WORKER_ELEMENT_DATA);
-  aggregatordataSource = new MatTableDataSource<AggregatorElement>(this.AGGREGATOR_ELEMENT_DATA);
+  enginedataSource = new MatTableDataSource<EGSMWorker>(this.WORKER_ELEMENT_DATA);
+  aggregatordataSource = new MatTableDataSource<Aggregator>(this.AGGREGATOR_ELEMENT_DATA);
 
   eventSubscription: any
 
@@ -76,28 +77,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   applyUpdate(update: any) {
     this.WORKER_ELEMENT_DATA = update['workers']
     this.enginedataSource.data = this.WORKER_ELEMENT_DATA
-    console.log(update['aggregators'])
     this.aggregatordataSource.data = update['aggregators'];
     this.loadingService.setLoadningState(false)
   }
-}
-
-export interface WorkerElement {
-  index: number;
-  name: string;
-  capacity: number;
-  engine_mumber: number;
-  uptime: string;
-  hostname: string;
-  port: number;
-}
-
-export interface AggregatorElement {
-  index: number;
-  name: string;
-  activity_mumber: number;
-  capacity: number,
-  uptime: string;
-  hostname: string,
-  port: number
 }

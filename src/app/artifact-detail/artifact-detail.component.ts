@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Artifact } from '../primitives/primitives';
 
 @Component({
   selector: 'app-artifact-detail',
@@ -7,14 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ArtifactDetailComponent implements OnInit {
 
-  data = {} as  ArtifactDetail
+  data = {} as  Artifact
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  update(newData:ArtifactDetail){
+  update(newData:Artifact){
     this.data = newData
     this.data.stakeholderstr = ''
     this.data.stakeholders.forEach(element => {
@@ -22,16 +23,4 @@ export class ArtifactDetailComponent implements OnInit {
       this.data.stakeholderstr += ';'
     });
   }
-}
-
-export interface ArtifactDetail{
-  artifacttype:string,
-  artifactid:string,
-  host:string,
-  port:number,
-  stakeholders:[],
-  faultyrates:Object,
-  timingfaultyrates: Object,
-  stakeholderstr:String,
-  //attached_to: string[]
 }

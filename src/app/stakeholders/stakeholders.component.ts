@@ -3,7 +3,8 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingService } from '../loading.service';
-import { StakeholderDetail, StakeholderDetailComponent } from '../stakeholder-detail/stakeholder-detail.component';
+import { Stakeholder } from '../primitives/primitives';
+import {StakeholderDetailComponent } from '../stakeholder-detail/stakeholder-detail.component';
 import { SupervisorService } from '../supervisor.service';
 
 const MODULE_STORAGE_KEY = 'stakeholder_detail'
@@ -37,7 +38,7 @@ export class StakeholdersComponent implements OnInit {
     var result = update['result'] || undefined
     if (update['type'] == 'search') {
       if (result == 'found') {
-        this.stakeholderDetails.update(update['stakeholder'] as StakeholderDetail)
+        this.stakeholderDetails.update(update['stakeholder'] as Stakeholder)
         this.isResult = true
       }
       else {

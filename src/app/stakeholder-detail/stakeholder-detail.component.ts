@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Stakeholder } from '../primitives/primitives';
 
 @Component({
   selector: 'app-stakeholder-detail',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./stakeholder-detail.component.scss']
 })
 export class StakeholderDetailComponent implements OnInit {
-  data = {} as StakeholderDetail
+  data = {} as Stakeholder
 
   constructor() { }
 
@@ -14,12 +15,8 @@ export class StakeholderDetailComponent implements OnInit {
 
   }
 
-  update(update:StakeholderDetail){
+  update(update:Stakeholder){
     this.data = update
   }
 
-}
-
-export interface StakeholderDetail{
-  id: string
 }
