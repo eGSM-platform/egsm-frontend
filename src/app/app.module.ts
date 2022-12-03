@@ -25,6 +25,7 @@ import { LoadingBarComponent } from './loading-bar/loading-bar.component';
 import { WorkerDetailsDialogComponent } from './overview/worker-details-dialog/worker-details-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { EngineDetailDialogComponent } from './engine-detail-dialog/engine-detail-dialog.component';
@@ -38,6 +39,7 @@ import { ArtifactsComponent } from './artifacts/artifacts.component';
 import { StakeholdersComponent } from './stakeholders/stakeholders.component';
 import { ArtifactDetailComponent } from './artifact-detail/artifact-detail.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { StakeholderDetailComponent } from './stakeholder-detail/stakeholder-detail.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
     ArtifactsComponent,
     StakeholdersComponent,
     ArtifactDetailComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    StakeholderDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -76,6 +79,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
     MatIconModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
+    MatSelectModule,
     MatInputModule,
     MatSnackBarModule,
     GojsAngularModule,

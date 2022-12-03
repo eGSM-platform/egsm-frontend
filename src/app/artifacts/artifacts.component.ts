@@ -40,7 +40,7 @@ export class ArtifactsComponent implements OnInit {
     var result = update['result'] || undefined
     if (update['type'] == 'search') {
       if (result == 'found') {
-        
+
         this.artifactDetails.update(update['artifact'])
         this.isResult = true
       }
@@ -67,6 +67,10 @@ export class ArtifactsComponent implements OnInit {
 
   onSearch(artifact_type: string, artifact_id: string): void {
     this.snackBar.dismiss()
+    if (artifact_type.length == 0 || artifact_id.length == 0) {
+      this.snackBar.open(`Please provide all necessary arguments!`, "Hide", { duration: 2000 });
+      return
+    }
     this.requestArtifactData(artifact_type, artifact_id)
   }
 
