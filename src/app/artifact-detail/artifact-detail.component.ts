@@ -16,6 +16,11 @@ export class ArtifactDetailComponent implements OnInit {
 
   update(newData:ArtifactDetail){
     this.data = newData
+    this.data.stakeholderstr = ''
+    this.data.stakeholders.forEach(element => {
+      this.data.stakeholderstr += element
+      this.data.stakeholderstr += ';'
+    });
   }
 }
 
@@ -27,5 +32,6 @@ export interface ArtifactDetail{
   stakeholders:[],
   faultyrates:Object,
   timingfaultyrates: Object,
+  stakeholderstr:String,
   //attached_to: string[]
 }

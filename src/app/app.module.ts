@@ -37,6 +37,7 @@ import { DeleteProcessDialogComponent } from './delete-process-dialog/delete-pro
 import { ArtifactsComponent } from './artifacts/artifacts.component';
 import { StakeholdersComponent } from './stakeholders/stakeholders.component';
 import { ArtifactDetailComponent } from './artifact-detail/artifact-detail.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { ArtifactDetailComponent } from './artifact-detail/artifact-detail.compo
     DeleteProcessDialogComponent,
     ArtifactsComponent,
     StakeholdersComponent,
-    ArtifactDetailComponent
+    ArtifactDetailComponent,
+    NotificationsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,1 +1,17 @@
-<p>stakeholders works!</p>
+<div class="mat-elevation-z8">
+    <mat-card class="input">
+        <mat-card-title>Create new Stakeholder</mat-card-title>
+        <mat-form-field appearance="fill">
+            <mat-label>Enter the Stakeholder's Name</mat-label>
+            <input
+                (keyup.enter)="onCreate(new_stakeholder_name.value)"
+                #new_stakeholder_name matInput placeholder="Company-1" required>
+        </mat-form-field>
+
+        <button mat-raised-button
+            (click)="onCreate(new_stakeholder_name.value)"
+            color="primary">Create</button>
+    </mat-card>
+</div>
+
+<br>

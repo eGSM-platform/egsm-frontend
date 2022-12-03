@@ -26,6 +26,10 @@ export class EnginesComponent {
     })
   }
 
+  ngOnDestroy() {
+    this.eventSubscription.unsubscribe()
+  }
+
   applyUpdate(update: any) {
     this.loadingService.setLoadningState(false)
     var engines = update['engines'] || undefined

@@ -12,4 +12,12 @@ export class StakeholdersComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onCreate(stakeholder_name: string) {
+
+  }
+
+  onSearch(stakeholder_name: string){
+    
+  }
+
 }

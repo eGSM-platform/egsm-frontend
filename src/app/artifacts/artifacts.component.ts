@@ -30,12 +30,17 @@ export class ArtifactsComponent implements OnInit {
 
   }
 
+  ngOnDestroy() {
+    this.eventSubscription.unsubscribe()
+  }
+
   applyUpdate(update: any) {
     console.log(update)
     this.loadingService.setLoadningState(false)
     var result = update['result'] || undefined
     if (update['type'] == 'search') {
       if (result == 'found') {
+        
         this.artifactDetails.update(update['artifact'])
         this.isResult = true
       }
