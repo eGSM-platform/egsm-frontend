@@ -40,6 +40,7 @@ import { StakeholdersComponent } from './stakeholders/stakeholders.component';
 import { ArtifactDetailComponent } from './artifact-detail/artifact-detail.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { StakeholderDetailComponent } from './stakeholder-detail/stakeholder-detail.component';
+import { NewProcessGroupDialogComponent } from './new-process-group-dialog/new-process-group-dialog.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { StakeholderDetailComponent } from './stakeholder-detail/stakeholder-det
     StakeholdersComponent,
     ArtifactDetailComponent,
     NotificationsComponent,
-    StakeholderDetailComponent
+    StakeholderDetailComponent,
+    NewProcessGroupDialogComponent
   ],
   imports: [
     BrowserModule,

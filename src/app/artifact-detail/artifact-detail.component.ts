@@ -22,5 +22,6 @@ export class ArtifactDetailComponent implements OnInit {
       this.data.stakeholderstr += element
       this.data.stakeholderstr += ';'
     });
+    this.data.attached_tostr = JSON.stringify(this.data.attached_tostr)
   }
 }

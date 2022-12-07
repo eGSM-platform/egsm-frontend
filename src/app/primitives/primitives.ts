@@ -17,8 +17,9 @@ export interface Artifact {
     stakeholders: [],
     faultyrates: Object,
     timingfaultyrates: Object,
+    attached_to: Object
     stakeholderstr: String,
-    //attached_to: string[]
+    attached_tostr:String,
 }
 
 export interface Process {
@@ -67,4 +68,9 @@ export interface Notification {
 
     process_group: string,
     processes: Process[],
+}
+
+export interface ProcessGroup{
+    name:string,
+    membership_rules:string
 }

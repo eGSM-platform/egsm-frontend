@@ -15,6 +15,7 @@ const MODULE_STORAGE_KEY = 'process_operation'
 })
 export class EnginesComponent {
   eventSubscription: any
+  currentProcessType: string = ""
   currentProcessId: string = ""
   isResult: boolean = false
 
@@ -37,6 +38,7 @@ export class EnginesComponent {
     if (engines != undefined && engines.length > 0) {
       this.engineList.update(update['engines'])
       this.isResult = true
+      this.currentProcessType = update['engines'][0].type
     }
     else if (engines != undefined) {
       this.snackBar.open(`The requested Process Instance does not found!`, "Hide", { duration: 2000 });
@@ -81,6 +83,7 @@ export class EnginesComponent {
   requestProcessDelete() {
     this.loadingService.setLoadningState(true)
     var payload = {
+      process_type: this.currentProcessType,
       process_instance_id: this.currentProcessId
     }
     this.supervisorService.sendCommand(MODULE_STORAGE_KEY, payload)

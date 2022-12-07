@@ -33,3 +33,42 @@
         </mat-paginator>
     </mat-card>
 </div>
+
+<br>
+
+<div class="mat-elevation-z8">
+    <mat-card>
+        <mat-card-title>Process Groups</mat-card-title>
+        <button mat-raised-button (click)="onDefineProcessGroup()" color="primary">Define Process Group</button>
+
+        <br>
+
+        <div class="mat-elevation-z8">
+            <mat-card class="input">
+                <mat-card-title>Search for Process Group</mat-card-title>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Enter Process Group Name</mat-label>
+                        <input (keyup.enter)="onProcessGroupSearch(process_group_name.value)" #process_group_name
+                            matInput placeholder="Company-1" required>
+                    </mat-form-field>
+                    <br>
+                    <button mat-raised-button (click)="onProcessGroupSearch(process_group_name.value)"
+                        color="primary">Search</button>
+                </div>
+            </mat-card>
+            <br>
+            <div [hidden]="!isProcessGroupDetailsFound">
+                <div class="mat-elevation-z8">
+                    <mat-card>
+                        <mat-card-header>
+                            <mat-card-subtitle>Process Group</mat-card-subtitle>
+                            <mat-card-title><b>{{processGroupDetails.name}}</b></mat-card-title>
+                            <mat-card-subtitle><b>Membership Rules:</b> {{processGroupDetails.membership_rules}}</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+</div>
