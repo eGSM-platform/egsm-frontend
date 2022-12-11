@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { EngineDetailDialogComponent } from '../engine-detail-dialog/engine-detail-dialog.component';
+import { Engine } from '../primitives/primitives';
 
 @Component({
   selector: 'app-engine-list',
@@ -13,7 +14,7 @@ import { EngineDetailDialogComponent } from '../engine-detail-dialog/engine-deta
 export class EngineListComponent implements OnInit {
   @Input() hasSpinningBar: boolean
   isLoading = false
-  dataSource = new MatTableDataSource<EngineElement>([]);
+  dataSource = new MatTableDataSource<Engine>([]);
   displayedColumns: string[] = ['index', 'type', 'perspective', 'name', 'time', 'status', 'worker_host', 'worker_api_port', 'button'];
   constructor(public dialog: MatDialog) { }
 
@@ -27,7 +28,7 @@ export class EngineListComponent implements OnInit {
     this.isLoading = this.hasSpinningBar
   }
 
-  update(newData: EngineElement[]) {
+  update(newData: Engine[]) {
     this.isLoading = false
     this.dataSource.data = newData
   }
@@ -43,15 +44,4 @@ export class EngineListComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
-}
-
-export interface EngineElement {
-  index: Number,
-  name: string;
-  type: string,
-  perspective: string,
-  uptime: string,
-  status: string,
-  worker_host: string,
-  worker_api_port: Number
 }

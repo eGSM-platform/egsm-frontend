@@ -81,9 +81,15 @@
         </ng-container>
 
         <!-- Weight Column -->
-        <ng-container matColumnDef="activities">
+        <ng-container matColumnDef="activity_mumber">
             <th mat-header-cell *matHeaderCellDef> Monitoring Activity Number </th>
             <td mat-cell *matCellDef="let element"> {{element.activity_mumber}} </td>
+        </ng-container>
+        
+        <!-- Weight Column -->
+        <ng-container matColumnDef="capacity">
+            <th mat-header-cell *matHeaderCellDef>Max Capacity </th>
+            <td mat-cell *matCellDef="let element"> {{element.capacity}} </td>
         </ng-container>
 
         <!-- Symbol Column -->

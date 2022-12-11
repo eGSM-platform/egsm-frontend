@@ -25,6 +25,7 @@ import { LoadingBarComponent } from './loading-bar/loading-bar.component';
 import { WorkerDetailsDialogComponent } from './overview/worker-details-dialog/worker-details-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { EngineDetailDialogComponent } from './engine-detail-dialog/engine-detail-dialog.component';
@@ -34,6 +35,12 @@ import { NewProcessInstanceDialogComponent } from './library/new-process-instanc
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { DeleteProcessDialogComponent } from './delete-process-dialog/delete-process-dialog.component';
+import { ArtifactsComponent } from './artifacts/artifacts.component';
+import { StakeholdersComponent } from './stakeholders/stakeholders.component';
+import { ArtifactDetailComponent } from './artifact-detail/artifact-detail.component';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { StakeholderDetailComponent } from './stakeholder-detail/stakeholder-detail.component';
+import { NewProcessGroupDialogComponent } from './new-process-group-dialog/new-process-group-dialog.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +56,13 @@ import { DeleteProcessDialogComponent } from './delete-process-dialog/delete-pro
     EngineDetailDialogComponent,
     EngineListComponent,
     NewProcessInstanceDialogComponent,
-    DeleteProcessDialogComponent
+    DeleteProcessDialogComponent,
+    ArtifactsComponent,
+    StakeholdersComponent,
+    ArtifactDetailComponent,
+    NotificationsComponent,
+    StakeholderDetailComponent,
+    NewProcessGroupDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +81,7 @@ import { DeleteProcessDialogComponent } from './delete-process-dialog/delete-pro
     MatIconModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
+    MatSelectModule,
     MatInputModule,
     MatSnackBarModule,
     GojsAngularModule,

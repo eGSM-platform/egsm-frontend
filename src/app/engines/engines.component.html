@@ -1,15 +1,13 @@
-<h1>Engines</h1>
-
-<br>
-
 <div class="mat-elevation-z8">
     <mat-card classs="input">
+        <mat-card-title>Search for Process</mat-card-title>
         <div class="engine-id-container">
             <mat-form-field appearance="fill">
                 <mat-label>Enter the Process Instance ID</mat-label>
                 <input (keyup.enter)="onSearch(instance_id.value)" #instance_id matInput placeholder="process_1" required>
             </mat-form-field>
-            <button mat-button (click)="onSearch(instance_id.value)" color="primary">Search</button>
+            <br>
+            <button mat-raised-button (click)="onSearch(instance_id.value)" color="primary">Search</button>
         </div>
     </mat-card>
 </div>

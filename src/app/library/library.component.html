@@ -1,34 +1,74 @@
-<h1>Process Type library</h1>
+<div class="mat-elevation-z8">
+    <mat-card>
+        <mat-card-title>Process Type library</mat-card-title>
+        <table mat-table [dataSource]="dataSource">
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef> Process Type Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.process_type_name}} </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef> Description </th>
+                <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="button">
+                <th mat-header-cell *matHeaderCellDef> </th>
+                <td mat-cell *matCellDef="let element">
+                    <button (click)="openNewProcessInstanceDialog(element.process_type_name)" mat-button
+                        color="primary">New Instance</button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+            aria-label="Select page of periodic elements">
+        </mat-paginator>
+    </mat-card>
+</div>
 
 <br>
 
 <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource">
+    <mat-card>
+        <mat-card-title>Process Groups</mat-card-title>
+        <button mat-raised-button (click)="onDefineProcessGroup()" color="primary">Define Process Group</button>
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="type">
-            <th mat-header-cell *matHeaderCellDef> Process Type Name </th>
-            <td mat-cell *matCellDef="let element"> {{element.process_type_name}} </td>
-        </ng-container>
+        <br>
 
-        <!-- Weight Column -->
-        <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef> Description </th>
-            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
-        </ng-container>
-
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="button">
-            <th mat-header-cell *matHeaderCellDef> </th>
-            <td mat-cell *matCellDef="let element"> 
-                <button (click)="openNewProcessInstanceDialog(element.process_type_name)" mat-button color="primary">New Instance</button>
-            </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
-    </mat-paginator>
+        <div class="mat-elevation-z8">
+            <mat-card class="input">
+                <mat-card-title>Search for Process Group</mat-card-title>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Enter Process Group Name</mat-label>
+                        <input (keyup.enter)="onProcessGroupSearch(process_group_name.value)" #process_group_name
+                            matInput placeholder="Company-1" required>
+                    </mat-form-field>
+                    <br>
+                    <button mat-raised-button (click)="onProcessGroupSearch(process_group_name.value)"
+                        color="primary">Search</button>
+                </div>
+            </mat-card>
+            <br>
+            <div [hidden]="!isProcessGroupDetailsFound">
+                <div class="mat-elevation-z8">
+                    <mat-card>
+                        <mat-card-header>
+                            <mat-card-subtitle>Process Group</mat-card-subtitle>
+                            <mat-card-title><b>{{processGroupDetails.name}}</b></mat-card-title>
+                            <mat-card-subtitle><b>Membership Rules:</b> {{processGroupDetails.membership_rules}}</mat-card-subtitle>
+                        </mat-card-header>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </mat-card>
 </div>
