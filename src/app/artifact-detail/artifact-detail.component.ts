@@ -17,11 +17,10 @@ export class ArtifactDetailComponent implements OnInit {
 
   update(newData:Artifact){
     this.data = newData
-    this.data.stakeholderstr = ''
+    this.data.stakeholders_str = ''
     this.data.stakeholders.forEach(element => {
-      this.data.stakeholderstr += element
-      this.data.stakeholderstr += ';'
+      this.data.stakeholders_str += element
+      this.data.stakeholders_str += ';'
     });
-    this.data.attached_tostr = JSON.stringify(this.data.attached_tostr)
   }
 }

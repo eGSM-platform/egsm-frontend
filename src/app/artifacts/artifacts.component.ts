@@ -5,6 +5,8 @@ import { ArtifactDetailComponent } from '../artifact-detail/artifact-detail.comp
 import { LoadingService } from '../loading.service';
 import { SupervisorService } from '../supervisor.service';
 
+import { Artifact } from '../primitives/primitives';
+
 const MODULE_STORAGE_KEY = 'artifact_detail'
 
 @Component({
@@ -85,12 +87,13 @@ export class ArtifactsComponent implements OnInit {
   }
 
   onDelete(artifact_name: string): void {
-    //NOTE: Probably delete will not be needed, since it would break historical statistics in the backend
+    //NOTE: Probably delete will not be needed, since it would break historical statistics on the backend
   }
 
   requestArtifactData(artifact_type: string, artifact_id: string) {
     this.loadingService.setLoadningState(true)
     var payload = {
+      type: 'search',
       artifact_type: artifact_type,
       artifact_id: artifact_id
     }
@@ -99,12 +102,9 @@ export class ArtifactsComponent implements OnInit {
 
   createArtifact(artifact_type: string, artifact_id: string, mqtt_host: string, mqtt_port: string, stakeholders: string) {
     this.loadingService.setLoadningState(true)
+    const newArtifact: Artifact = { type: artifact_type, id: artifact_id, host: mqtt_host, port: Number(mqtt_port), stakeholders: stakeholders.split(';') };
     var payload = {
-      artifact_type: artifact_type,
-      artifact_id: artifact_id,
-      mqtt_host: mqtt_host,
-      mqtt_port: mqtt_port,
-      stakeholders: stakeholders.split(';'),
+      artifact: newArtifact,
       type: 'create'
     }
     this.supervisorService.sendCommand(MODULE_STORAGE_KEY, payload)

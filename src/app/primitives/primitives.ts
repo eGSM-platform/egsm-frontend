@@ -10,16 +10,14 @@ export interface Engine {
 }
 
 export interface Artifact {
-    artifacttype: string,
-    artifactid: string,
+    type: string,
+    id: string,
     host: string,
     port: number,
-    stakeholders: [],
-    faultyrates: Object,
-    timingfaultyrates: Object,
-    attached_to: Object
-    stakeholderstr: String,
-    attached_tostr:String,
+    stakeholders: string[],
+    faulty_rates?: Object,
+    timing_faulty_rates?: Object,
+    stakeholders_str?: String
 }
 
 export interface Process {
@@ -50,8 +48,8 @@ export interface Aggregator {
 }
 
 export interface Stakeholder {
-    id: string,
-    notificationdetails: string
+    name: string,
+    notification_type: string
 }
 
 //TODO:VERIFY
@@ -72,5 +70,5 @@ export interface Notification {
 
 export interface ProcessGroup{
     name:string,
-    membership_rules:string
+    membership_rules:Object
 }

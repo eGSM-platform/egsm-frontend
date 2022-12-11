@@ -63,6 +63,7 @@ export class LibraryComponent implements AfterViewInit {
     }
     else if (update['type'] == 'get_process_group') {
       if (update['result'] == 'found') {
+        console.log(update['process_group'])
         this.processGroupDetails = update['process_group'] as ProcessGroup
         this.isProcessGroupDetailsFound = true
       }
@@ -101,7 +102,7 @@ export class LibraryComponent implements AfterViewInit {
 
   onProcessGroupSearch(groupName: string) {
     this.snackBar.dismiss()
-    if(groupName.length == 0){
+    if (groupName.length == 0) {
       this.snackBar.open(`Please provide all necessary arguments!`, "Hide", { duration: 2000 });
       return
     }
