@@ -53,7 +53,7 @@ export interface Stakeholder {
 }
 
 //TODO:VERIFY
-export interface Notification {
+/*export interface Notification {
     //index: Number, //Index in the table for visualization
     timestamp: string,
     id: string,
@@ -66,9 +66,35 @@ export interface Notification {
 
     process_group: string,
     processes: Process[],
+}*/
+
+export interface Notification {
+    id: String
+    timestamp: Number
+    source_job: String
+    source_aggregator: String
+    notified: String[]
+    type: String
+    message: String
+    errors: Object
+
 }
 
-export interface ProcessGroup{
-    name:string,
-    membership_rules:Object
+export interface ArtifactNotification extends Notification {
+    artifact_type: String
+    artifact_id: String
+}
+
+export interface ProcessNotification extends Notification {
+
+    process_type: String
+    instance_id: String
+    perspective: String
+    processgroupmembers: String[]
+
+}
+
+export interface ProcessGroup {
+    name: string,
+    membership_rules: Object
 }

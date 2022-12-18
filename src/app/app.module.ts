@@ -41,6 +41,7 @@ import { ArtifactDetailComponent } from './artifact-detail/artifact-detail.compo
 import { NotificationsComponent } from './notifications/notifications.component';
 import { StakeholderDetailComponent } from './stakeholder-detail/stakeholder-detail.component';
 import { NewProcessGroupDialogComponent } from './new-process-group-dialog/new-process-group-dialog.component';
+import { BpmnComponent } from './bpmn/bpmn.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { NewProcessGroupDialogComponent } from './new-process-group-dialog/new-p
     ArtifactDetailComponent,
     NotificationsComponent,
     StakeholderDetailComponent,
-    NewProcessGroupDialogComponent
+    NewProcessGroupDialogComponent,
+    BpmnComponent
   ],
   imports: [
     BrowserModule,
