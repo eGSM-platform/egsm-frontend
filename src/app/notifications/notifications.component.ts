@@ -17,7 +17,7 @@ const MODULE_STORAGE_KEY = 'notifications'
 export class NotificationsComponent implements OnInit {
 
   eventSubscription: any
-  stakeholders = new FormControl('');
+  stakeholders = new FormControl([]);
   live = new FormControl(true);
   historical = new FormControl(false);
   stakeholderList: Stakeholder[]
@@ -40,6 +40,8 @@ export class NotificationsComponent implements OnInit {
       this.requestPastNotifications(this.stakeholders.value)
     }
     if (this.live.value) {
+      let stakeholders = this.stakeholders.value
+
       this.subscribeToNotification(this.stakeholders.value)
     }
   }
@@ -78,6 +80,7 @@ export class NotificationsComponent implements OnInit {
       stakeholders: stakeholders,
       type: 'subscribe_notifications'
     }
+    console.log(payload)
     this.supervisorService.requestUpdate(MODULE_STORAGE_KEY, payload)
   }
 

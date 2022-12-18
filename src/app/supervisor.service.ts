@@ -33,6 +33,7 @@ export class SupervisorService {
   }
 
   messageHandler(msg: any) {
+    console.log(msg)
     switch (msg['module']) {
       case 'overview':
         this.OverviewEventEmitter.next(msg['payload'])

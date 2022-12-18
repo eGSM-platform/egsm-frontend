@@ -42,19 +42,19 @@ export class StakeholdersComponent implements OnInit {
         this.isResult = true
       }
       else {
-        this.snackBar.open(`The requested Artifact Instance does not found!`, "Hide", { duration: 2000 });
+        this.snackBar.open(`The requested Stakeholder does not found!`, "Hide", { duration: 2000 });
         this.isResult = false
       }
     }
     else if (update['type'] == 'create') {
       if (result == 'created') {
-        this.snackBar.open(`New Artifact has been successfully added to Database`, "Hide", { duration: 2000 });
+        this.snackBar.open(`New Stakeholder has been successfully added to Database`, "Hide", { duration: 2000 });
       }
       else if (result == 'already_exists') {
-        this.snackBar.open(`An Artifact with the provided Type and ID is already exist`, "Hide", { duration: 2000 });
+        this.snackBar.open(`A Stakeholder with the provided ID is already exist`, "Hide", { duration: 2000 });
       }
       else {
-        this.snackBar.open(`Error while creating Artifact`, "Hide", { duration: 2000 });
+        this.snackBar.open(`Error while creating Stakeholder`, "Hide", { duration: 2000 });
       }
     }
     else if (update['type'] == 'delete') {
