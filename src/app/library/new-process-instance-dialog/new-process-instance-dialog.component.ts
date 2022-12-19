@@ -42,7 +42,6 @@ export class NewProcessInstanceDialogComponent {
   }
 
   onCreate(instance_name: string, bpmn_job_start: boolean) {
-    console.log(bpmn_job_start)
     this.snackBar.dismiss()
     this.loadingService.setLoadningState(true)
     if (instance_name.includes('__') || instance_name.includes('/') || instance_name.includes('#')) {

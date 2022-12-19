@@ -42,6 +42,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { StakeholderDetailComponent } from './stakeholder-detail/stakeholder-detail.component';
 import { NewProcessGroupDialogComponent } from './new-process-group-dialog/new-process-group-dialog.component';
 import { BpmnComponent } from './bpmn/bpmn.component';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { BpmnComponent } from './bpmn/bpmn.component';
     ReactiveFormsModule,
     FormsModule,
     MatSlideToggleModule,
+    MatGridListModule,
 
   ],
   providers: [],
