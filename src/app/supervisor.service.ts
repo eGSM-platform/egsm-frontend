@@ -20,6 +20,7 @@ export class SupervisorService {
   @Output() StakeholderInformationEventEmitter: Subject<any> = new Subject()
   @Output() NotificationEventEmitter: Subject<any> = new Subject()
   @Output() NewProcessGroupEventEmitter: Subject<any> = new Subject()
+  @Output() AggregatorEventEmitter: Subject<any> = new Subject()
 
 
   subject = webSocket({ url: API_ENDPOINT, protocol: API_PROTOCOL });
@@ -68,6 +69,9 @@ export class SupervisorService {
       case 'new_process_group':
         this.NewProcessGroupEventEmitter.next(msg['payload'])
         break;
+      case 'aggregators':
+        this.AggregatorEventEmitter.next(msg['payload'])
+        break
     }
   }
 
