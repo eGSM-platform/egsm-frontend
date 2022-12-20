@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { LoadingService } from '../loading.service';
-import { Stakeholder } from '../primitives/primitives';
+import { Stakeholder, StakeholderNotification } from '../primitives/primitives';
 import { SupervisorService } from '../supervisor.service';
 
 const MODULE_STORAGE_KEY = 'notifications'
@@ -21,9 +22,11 @@ export class NotificationsComponent implements OnInit {
   live = new FormControl(true);
   historical = new FormControl(false);
   stakeholderList: Stakeholder[]
+  subscribedTo: String[] = []
 
-  dataSource = new MatTableDataSource<Notification>([]);
-  displayedColumns: string[] = ['addressee', 'time', 'id', 'type', 'message', 'button'];
+  dataSource = new MatTableDataSource<StakeholderNotification>();
+  displayedColumns: String[] = ['notified', 'time', 'id', 'type', 'job_type', 'message', 'source_job', 'source_aggregator', "artifact_type", "artifact_id", "process_type", "process_id", 'button'];
+  @ViewChild(MatPaginator) notificationPaginator: MatPaginator;
 
   constructor(private supervisorService: SupervisorService, private snackBar: MatSnackBar, public loadingService: LoadingService, public deleteProcessDialog: MatDialog) {
     this.eventSubscription = this.supervisorService.NotificationEventEmitter.subscribe((update: any) => {
@@ -35,19 +38,22 @@ export class NotificationsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  ngAfterInit(): void {
+    this.dataSource.paginator = this.notificationPaginator;
+  }
+
   onSubmit(): void {
     if (this.historical.value) {
       this.requestPastNotifications(this.stakeholders.value)
     }
     if (this.live.value) {
       let stakeholders = this.stakeholders.value
-
       this.subscribeToNotification(this.stakeholders.value)
     }
   }
 
-  navigateToNotification(notification:string){
-    
+  navigateToNotification(notification: string) {
+
   }
 
   applyUpdate(update: any) {
@@ -55,6 +61,13 @@ export class NotificationsComponent implements OnInit {
     this.loadingService.setLoadningState(false)
     if (update['type'] == 'stakeholder_list') {
       this.stakeholderList = update['stakeholder_list']
+    }
+    else if (update['type'] == 'new_notification') {
+      console.log('new notif')
+      var data = this.dataSource.data
+      data.unshift(update["notification"] as StakeholderNotification)
+      this.dataSource.data = data
+      //this.notificationPaginator._changePageSize( this.notificationPaginator.pageSize); 
     }
   }
 
@@ -76,6 +89,7 @@ export class NotificationsComponent implements OnInit {
   }
 
   subscribeToNotification(stakeholders: any) {
+    this.subscribedTo = stakeholders
     var payload = {
       stakeholders: stakeholders,
       type: 'subscribe_notifications'
