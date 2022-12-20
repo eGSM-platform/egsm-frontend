@@ -14,7 +14,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { OverviewComponent } from './overview/overview.component';
 import { LibraryComponent } from './library/library.component';
@@ -25,7 +25,7 @@ import { LoadingBarComponent } from './loading-bar/loading-bar.component';
 import { WorkerDetailsDialogComponent } from './overview/worker-details-dialog/worker-details-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { EngineDetailDialogComponent } from './engine-detail-dialog/engine-detail-dialog.component';
@@ -42,7 +42,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { StakeholderDetailComponent } from './stakeholder-detail/stakeholder-detail.component';
 import { NewProcessGroupDialogComponent } from './new-process-group-dialog/new-process-group-dialog.component';
 import { BpmnComponent } from './bpmn/bpmn.component';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
     FormsModule,
     MatSlideToggleModule,
     MatGridListModule,
-
+    MatChipsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

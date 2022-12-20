@@ -68,29 +68,23 @@ export interface Stakeholder {
     processes: Process[],
 }*/
 
-export interface Notification {
+export interface StakeholderNotification {
     id: String
     timestamp: Number
     source_job: String
     source_aggregator: String
     notified: String[]
     type: String
+    job_type:String
     message: String
-    errors: Object
+    errors: String[]
 
-}
-
-export interface ArtifactNotification extends Notification {
-    artifact_type: String
-    artifact_id: String
-}
-
-export interface ProcessNotification extends Notification {
-
-    process_type: String
-    instance_id: String
-    perspective: String
-    processgroupmembers: String[]
+    artifact_type?: String
+    artifact_id?: String
+    process_type?: String
+    instance_id?: String
+    //perspective?: String
+    //processgroupmembers?: String[]
 
 }
 
