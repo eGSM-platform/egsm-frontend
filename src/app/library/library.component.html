@@ -24,6 +24,15 @@
                 </td>
             </ng-container>
 
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="details_button">
+                <th mat-header-cell *matHeaderCellDef> </th>
+                <td mat-cell *matCellDef="let element">
+                    <button (click)="openProcessDetailsDialog(element.process_type_name)" mat-button
+                        color="primary">Details</button>
+                </td>
+            </ng-container>
+
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
@@ -64,7 +73,8 @@
                         <mat-card-header>
                             <mat-card-subtitle>Process Group</mat-card-subtitle>
                             <mat-card-title><b>{{processGroupDetails.name}}</b></mat-card-title>
-                            <mat-card-subtitle><b>Membership Rules:</b> {{processGroupDetails.membership_rules}}</mat-card-subtitle>
+                            <mat-card-subtitle><b>Membership Rules:</b>
+                                {{processGroupDetails.membership_rules}}</mat-card-subtitle>
                         </mat-card-header>
                     </mat-card>
                 </div>

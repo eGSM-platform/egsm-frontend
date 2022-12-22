@@ -75,7 +75,7 @@ export interface StakeholderNotification {
     source_aggregator: String
     notified: String[]
     type: String
-    job_type:String
+    job_type: String
     message: String
     errors: String[]
 
@@ -91,4 +91,29 @@ export interface StakeholderNotification {
 export interface ProcessGroup {
     name: string,
     membership_rules: Object
+}
+
+export interface ProcessTypeStatistics {
+    process_type: String
+    perspective_statistics: ProcessPerspectiveStatistic[]
+}
+
+export interface ProcessPerspectiveStatistic {
+    perspective: String
+    statistics: TaskStatistics[]
+}
+
+export interface TaskStatistics {
+    id: String
+    opened: Number
+    completed: Number
+    skipped: Number
+    out_of_order: Number
+    faulty: Number
+}
+
+export interface BpmnBlockOverlayReport {
+    id: string
+    color: string
+    flags: string[]
 }

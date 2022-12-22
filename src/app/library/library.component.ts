@@ -9,6 +9,7 @@ import { SupervisorService } from '../supervisor.service';
 import { Process, ProcessGroup } from '../primitives/primitives';
 import { NewProcessGroupDialogComponent } from '../new-process-group-dialog/new-process-group-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ProcessTypeDetailsComponent } from '../process-type-details/process-type-details.component';
 
 const MODULE_STORAGE_KEY = 'process_library'
 
@@ -19,7 +20,7 @@ const MODULE_STORAGE_KEY = 'process_library'
 })
 
 export class LibraryComponent implements AfterViewInit {
-  displayedColumns: string[] = ['type', 'description', 'button'];
+  displayedColumns: string[] = ['type', 'description', 'button', 'details_button'];
   dataSource = new MatTableDataSource<Process>([]);
   eventSubscription: any
   isProcessGroupDetailsFound = false
@@ -77,6 +78,19 @@ export class LibraryComponent implements AfterViewInit {
   openNewProcessInstanceDialog(process_type_name: string) {
     const dialogRef = this.dialog.open(NewProcessInstanceDialogComponent, {
       width: '1000px',
+      data: {
+        process_type_name: process_type_name,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  openProcessDetailsDialog(process_type_name:string){
+    const dialogRef = this.dialog.open(ProcessTypeDetailsComponent, {
+      width: '90%',
       data: {
         process_type_name: process_type_name,
       }

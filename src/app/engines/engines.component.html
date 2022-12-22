@@ -4,28 +4,32 @@
         <div class="engine-id-container">
             <mat-form-field appearance="fill">
                 <mat-label>Enter the Process Instance ID</mat-label>
-                <input (keyup.enter)="onSearch(instance_id.value)" #instance_id matInput placeholder="process_1" required>
+                <input (keyup.enter)="onSearch(instance_id.value)" #instance_id matInput placeholder="process_1"
+                    required>
             </mat-form-field>
             <br>
             <button mat-raised-button (click)="onSearch(instance_id.value)" color="primary">Search</button>
+            <button mat-raised-button (click)="onTest()" color="primary">Test</button>
         </div>
     </mat-card>
 </div>
 
-<br>
-
-<div class="mat-elevation-z8">
-    <app-bpmn></app-bpmn>
+<div *ngFor="let perspective of perspectives">
+    <br>
+    <div class="mat-elevation-z8">
+        <div class="bpmn-container">
+            <app-bpmn [show_statistics]="true" [model_id]="perspective.name" [model_xml]="perspective.model_xml"
+                #bpmn_diagrams></app-bpmn>
+        </div>
+    </div>
 </div>
-<br>
-<app-bpmn></app-bpmn>
 
 
 <div [hidden]="!isResult" class="mat-elevation-z8">
     <h2>Included Process Engines</h2>
     <div class="mat-elevation-z8">
         <app-engine-list [hasSpinningBar]="false" #engines></app-engine-list>
-        <button mat-raised-button (click) = "onDeleteProcess()"color="warn">Delete Process</button>
+        <button mat-raised-button (click)="onDeleteProcess()" color="warn">Delete Process</button>
     </div>
 
     <br>
