@@ -44,6 +44,7 @@ import { NewProcessGroupDialogComponent } from './new-process-group-dialog/new-p
 import { BpmnComponent } from './bpmn/bpmn.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatChipsModule } from '@angular/material/chips';
+import { ProcessTypeDetailsComponent } from './process-type-details/process-type-details.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { MatChipsModule } from '@angular/material/chips';
     NotificationsComponent,
     StakeholderDetailComponent,
     NewProcessGroupDialogComponent,
-    BpmnComponent
+    BpmnComponent,
+    ProcessTypeDetailsComponent
   ],
   imports: [
     BrowserModule,
