@@ -117,3 +117,8 @@ export interface BpmnBlockOverlayReport {
     color: string
     flags: string[]
 }
+
+export interface ProcessPerspective{
+    name:string,
+    bpmn_xml:string
+}

@@ -14,28 +14,28 @@
     </mat-card>
 </div>
 
-<div *ngFor="let perspective of perspectives">
-    <br>
-    <div class="mat-elevation-z8">
-        <div class="bpmn-container">
-            <app-bpmn [show_statistics]="true" [model_id]="perspective.name" [model_xml]="perspective.model_xml"
-                #bpmn_diagrams></app-bpmn>
-        </div>
-    </div>
-</div>
-
-
 <div [hidden]="!isResult" class="mat-elevation-z8">
     <h2>Included Process Engines</h2>
     <div class="mat-elevation-z8">
         <app-engine-list [hasSpinningBar]="false" #engines></app-engine-list>
         <button mat-raised-button (click)="onDeleteProcess()" color="warn">Delete Process</button>
     </div>
-
-    <br>
-
-    <div class="mat-elevation-z8">
+    <div [hidden]="currentBpmnJob != undefined" class="mat-elevation-z8">
+        <br>
         <h2>BPMN diagram</h2>
         <h3>No BPMN diagram job found for this process instance</h3>
     </div>
+</div>
+
+<div *ngFor="let perspective of diagramPerspectives">
+    <br>
+    <div class="mat-elevation-z8">
+        <mat-card class="bpmn-container">
+            <div class="bpmn-container">
+                <app-bpmn [show_statistics]="true" [model_id]="perspective.name" [model_xml]="perspective.bpmn_xml"
+                    #bpmn_diagrams></app-bpmn>
+            </div>
+        </mat-card>
+    </div>
+    <br>
 </div>
