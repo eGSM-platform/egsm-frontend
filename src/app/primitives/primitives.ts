@@ -113,7 +113,8 @@ export interface TaskStatistics {
 }
 
 export interface BpmnBlockOverlayReport {
-    id: string
+    perspective: string
+    block_id: string
     color: string
     flags: string[]
 }
