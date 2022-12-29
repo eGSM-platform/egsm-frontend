@@ -7,9 +7,11 @@ import {
   OnDestroy,
   ViewChild,
   SimpleChanges,
+  Output,
 } from '@angular/core';
 
 import * as BpmnModeler from 'bpmn-js/dist/bpmn-modeler.production.min.js';
+import { Subject } from 'rxjs';
 import { BpmnBlockOverlayReport, ProcessPerspectiveStatistic } from '../primitives/primitives';
 
 
@@ -36,6 +38,7 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
   @Input() show_statistics: boolean;
   @Input() public model_id: string;
   @Input() public model_xml: string;
+  @Output() DiagramEventEmitter: Subject<any> = new Subject();
 
   blockStatistics = new Map()
   blockProperties = new Map() //Block name -> {BpmnBlockOverlayReport}
@@ -79,6 +82,7 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
         }
       })
     }
+    this.DiagramEventEmitter.next({type:'INIT_DONE'})
   }
 
   updateModelXml(value: string) {
@@ -96,37 +100,37 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
     }
   }
 
-  applyStatusReport(overlayreport: BpmnBlockOverlayReport[]) {
+  applyOverlayReport(overlayreport: BpmnBlockOverlayReport[]) {
     var overlay = this.bpmnJS.get('overlays');
     overlayreport.forEach(element => {
       //Check if the element.id exists in this.visibleOverlays
       //If yes then check if the new overlay introduces any changes
-      if (this.blockProperties.has(element.id)) {
-        if (this.blockProperties.get(element.id).color != element.color) {
-          this.setTaskColor(element.id, element.color)
-          this.blockProperties.get(element.id).color = element.color
+      if (this.blockProperties.has(element.block_id)) {
+        if (this.blockProperties.get(element.block_id).color != element.color) {
+          this.setTaskColor(element.block_id, element.color)
+          this.blockProperties.get(element.block_id).color = element.color
         }
-        this.blockProperties.get(element.id).flags.forEach(flag => {
+        this.blockProperties.get(element.block_id).flags.forEach(flag => {
           if (!element.flags.includes(flag)) {
             console.log('remove flag: ' + flag)
             //Remove flag, since it is not longer part of the report
-            overlay.remove(this.visibleOverlays.get(element.id + flag))
-            this.visibleOverlays.delete(element.id + flag)
-            this.blockProperties.get(element.id).flags.delete(flag)
+            overlay.remove(this.visibleOverlays.get(element.block_id + flag))
+            this.visibleOverlays.delete(element.block_id + flag)
+            this.blockProperties.get(element.block_id).flags.delete(flag)
           }
         })
         element.flags.forEach(flag => {
-          if (!this.visibleOverlays.has(element.id + "_" + flag)) {
-            this.addFlagToOverlay(element.id, flag)
+          if (!this.visibleOverlays.has(element.block_id + "_" + flag)) {
+            this.addFlagToOverlay(element.block_id, flag)
           }
         });
 
       }
       else {
-        this.blockProperties.set(element.id, { color: element.color, flags: new Set(element.flags) })
-        this.setTaskColor(element.id, element.color)
+        this.blockProperties.set(element.block_id, { color: element.color, flags: new Set(element.flags) })
+        this.setTaskColor(element.block_id, element.color)
         element.flags.forEach(flag => {
-          this.addFlagToOverlay(element.id, flag)
+          this.addFlagToOverlay(element.block_id, flag)
         });
       }
     });

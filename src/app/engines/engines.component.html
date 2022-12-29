@@ -32,7 +32,7 @@
     <div class="mat-elevation-z8">
         <mat-card class="bpmn-container">
             <div class="bpmn-container">
-                <app-bpmn [show_statistics]="true" [model_id]="perspective.name" [model_xml]="perspective.bpmn_xml"
+                <app-bpmn [show_statistics]="false" [model_id]="perspective.name" [model_xml]="perspective.bpmn_xml" (DiagramEventEmitter)="onDiagramEvent($event)"
                     #bpmn_diagrams></app-bpmn>
             </div>
         </mat-card>

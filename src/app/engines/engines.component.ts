@@ -6,7 +6,7 @@ import { BpmnComponent } from '../bpmn/bpmn.component';
 import { DeleteProcessDialogComponent } from '../delete-process-dialog/delete-process-dialog.component';
 import { EngineListComponent } from '../engine-list/engine-list.component';
 import { LoadingService } from '../loading.service';
-import { ProcessPerspective } from '../primitives/primitives';
+import { BpmnBlockOverlayReport, ProcessPerspective } from '../primitives/primitives';
 import { SupervisorService } from '../supervisor.service';
 
 const MODULE_STORAGE_KEY = 'process_operation'
@@ -60,9 +60,24 @@ export class EnginesComponent {
         this.currentBpmnJob = update['bpmn_job']
         this.aggregator.connect(this.currentBpmnJob.host, this.currentBpmnJob.port)
         this.aggregatorEventSubscription = this.aggregator.getEventEmitter().subscribe((data) => {
-          console.log('new event ' + data['update']['perspectives']);
-          this.diagramPerspectives = data['update']['perspectives'] as ProcessPerspective[]
-          console.log(this.diagramPerspectives)
+          if (data['update']?.['perspectives'] != undefined) {
+            console.log('new perspectives ' + data['update']['perspectives']);
+            this.diagramPerspectives = data['update']['perspectives'] as ProcessPerspective[]
+            console.log(this.diagramPerspectives)
+          }
+          if (data['update']?.['overlays'] != undefined) {
+            console.log('new overlays ' + data['update']['overlays']);
+            var overlays = data['update']['overlays'] as BpmnBlockOverlayReport[]
+            overlays.forEach(overlay => {
+              console.log(overlay.perspective)
+              console.log(this.bpmnDiagrams)
+              var diagram = this.bpmnDiagrams.find(element => element.model_id == overlay.perspective)
+              if (diagram) {
+                diagram.applyOverlayReport([overlay])
+              }
+            });
+          }
+
         });
         this.aggregator.subscribeJob(this.currentBpmnJob.job_id)
       }
@@ -114,6 +129,12 @@ export class EnginesComponent {
         this.requestProcessDelete()
       }
     })
+  }
+
+  onDiagramEvent(event){
+    if(event.type == 'INIT_DONE'){
+      console.log('Init done')
+    }
   }
 
   requestProcessDelete() {
