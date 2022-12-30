@@ -82,7 +82,7 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
         }
       })
     }
-    this.DiagramEventEmitter.next({type:'INIT_DONE'})
+    this.DiagramEventEmitter.next({ type: 'INIT_DONE' })
   }
 
   updateModelXml(value: string) {
@@ -146,12 +146,19 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
     }
 
     switch (flag) {
-      case 'WARNING':
+      case 'INCOMPLETE':
         var html = `<img width="25" height="25" src="assets/hazard.png"> `
         break;
-      case 'REPEATED':
+      case 'MULTI_EXECUTION':
         var html = `<img width="25" height="25" src="assets/repeat.png"> `
         break
+      case 'INCORRECT_EXECUTION':
+        var html = `<img width="25" height="25" src="assets/cross.png"> `
+        break
+      case 'INCORRECT_BRANCH':
+        var html = `<img width="25" height="25" src="assets/cross.png"> `
+        break
+
     }
     this.visibleOverlays.set(elementId + "_" + flag, overlay.add(elementId, {
       position: {
@@ -184,14 +191,14 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
   }
 
   setTaskColor(taskId, color) {
-    console.log('Set Task color')
+    console.log('Set Task color + ' + color)
     var modeling = this.bpmnJS.get('modeling');
     var elementRegistry = this.bpmnJS.get('elementRegistry');
     var element = elementRegistry.get(taskId)
-    if(color == undefined){
+    if (color == undefined) {
       modeling.setColor([element], null);
       return
     }
-    modeling.setColor([element], { stroke: "#000000", fill: color });
+    modeling.setColor([element], { stroke: color.stroke, fill: color.fill });
   }
 }
