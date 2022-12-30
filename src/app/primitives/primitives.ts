@@ -115,11 +115,14 @@ export interface TaskStatistics {
 export interface BpmnBlockOverlayReport {
     perspective: string
     block_id: string
-    color: string
+    color: {
+        fill: string,
+        stroke: string
+    }
     flags: string[]
 }
 
-export interface ProcessPerspective{
-    name:string,
-    bpmn_xml:string
+export interface ProcessPerspective {
+    name: string,
+    bpmn_xml: string
 }
