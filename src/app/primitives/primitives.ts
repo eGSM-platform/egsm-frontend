@@ -52,22 +52,6 @@ export interface Stakeholder {
     notification_type: string
 }
 
-//TODO:VERIFY
-/*export interface Notification {
-    //index: Number, //Index in the table for visualization
-    timestamp: string,
-    id: string,
-
-    notification_type: string,
-    notification_message: string,
-    notification_source_agent: string,
-    notification_source_job: string,
-    notification_addressee: string,
-
-    process_group: string,
-    processes: Process[],
-}*/
-
 export interface StakeholderNotification {
     id: String
     timestamp: Number
@@ -115,11 +99,13 @@ export interface TaskStatistics {
 export interface BpmnBlockOverlayReport {
     perspective: string
     block_id: string
-    color: {
-        fill: string,
-        stroke: string
-    }
+    color: Color
     flags: string[]
+}
+
+export interface Color {
+    fill: string,
+    stroke: string
 }
 
 export interface ProcessPerspective {

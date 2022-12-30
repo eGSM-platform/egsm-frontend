@@ -27,14 +27,13 @@ export class SupervisorService {
 
   constructor() {
     this.subject.subscribe({
-      next: msg => this.messageHandler(msg), // Called whenever there is a message from the server.
-      error: err => console.log(err), // Called if at any point WebSocket API signals some kind of error.
-      complete: () => console.log('complete') // Called when connection is closed (for whatever reason).
+      next: msg => this.messageHandler(msg),
+      error: err => console.log(err),
+      complete: () => console.log('Disconnected from Supervisor')
     });
   }
 
   messageHandler(msg: any) {
-    console.log(msg)
     switch (msg['module']) {
       case 'overview':
         this.OverviewEventEmitter.next(msg['payload'])
@@ -55,15 +54,12 @@ export class SupervisorService {
         this.NewProcessInstaceEventEmitter.next(msg['payload'])
         break;
       case 'artifact_detail':
-        console.log('ok')
         this.ArtifactInformationEventEmitter.next(msg['payload'])
         break;
       case 'stakeholder_detail':
-        console.log('ok')
         this.StakeholderInformationEventEmitter.next(msg['payload'])
         break;
       case 'notifications':
-        console.log('ok')
         this.NotificationEventEmitter.next(msg['payload'])
         break;
       case 'new_process_group':
@@ -75,6 +71,11 @@ export class SupervisorService {
     }
   }
 
+  /**
+   * Requests an update from the supervisor
+   * @param module Module the request initiated by 
+   * @param payload Content of the request
+   */
   requestUpdate(module: string, payload: any = '') {
     let newMessage = {
       type: "update_request",
@@ -84,6 +85,11 @@ export class SupervisorService {
     this.subject.next(JSON.stringify(newMessage))
   }
 
+  /**
+   * Sending a command to the Supervisor
+   * @param module Module the command initiated by
+   * @param payload Content of the command
+   */
   sendCommand(module: string, payload: any = '') {
     let newMessage = {
       type: "command",

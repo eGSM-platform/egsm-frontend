@@ -4,7 +4,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ArtifactDetailComponent } from '../artifact-detail/artifact-detail.component';
 import { LoadingService } from '../loading.service';
 import { SupervisorService } from '../supervisor.service';
-
 import { Artifact } from '../primitives/primitives';
 
 const MODULE_STORAGE_KEY = 'artifact_detail'
@@ -16,12 +15,9 @@ const MODULE_STORAGE_KEY = 'artifact_detail'
 })
 export class ArtifactsComponent implements OnInit {
   eventSubscription: any
-  //currentArtifactType: string = ""
-  //currentArtifactId: string = ""
   isResult: boolean = false
 
   @ViewChild('artifact_details') artifactDetails: ArtifactDetailComponent
-
   constructor(private supervisorService: SupervisorService, private snackBar: MatSnackBar, private loadingService: LoadingService, public deleteProcessDialog: MatDialog) {
     this.eventSubscription = this.supervisorService.ArtifactInformationEventEmitter.subscribe((update: any) => {
       this.applyUpdate(update)
@@ -37,7 +33,6 @@ export class ArtifactsComponent implements OnInit {
   }
 
   applyUpdate(update: any) {
-    console.log(update)
     this.loadingService.setLoadningState(false)
     var result = update['result'] || undefined
     if (update['type'] == 'search') {

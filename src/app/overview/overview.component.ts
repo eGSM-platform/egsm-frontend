@@ -60,17 +60,17 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     this.eventSubscription.unsubscribe()
   }
 
+  /**
+   * Opens a WorkerDetailsDialogComponent to show details of a specified Worker
+   * @param name Name of the Worker
+   */
   openDialog(name: LocalizedString) {
     console.log("navigate: " + name)
-    const dialogRef = this.dialog.open(WorkerDetailsDialogComponent, {
+    this.dialog.open(WorkerDetailsDialogComponent, {
       width: '1300px',
       data: {
         name: name,
       }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -6,14 +6,14 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
   templateUrl: './delete-process-dialog.component.html',
   styleUrls: ['./delete-process-dialog.component.scss']
 })
-export class DeleteProcessDialogComponent{
+export class DeleteProcessDialogComponent {
 
-  processId = ""
+  processId: string
   constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<DeleteProcessDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.processId = data.processId
   }
 
-  onClick(result:boolean){
+  onClick(result: boolean) {
     this.dialogRef.close(result)
   }
 }

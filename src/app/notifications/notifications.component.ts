@@ -28,7 +28,7 @@ export class NotificationsComponent implements OnInit {
   displayedColumns: String[] = ['notified', 'time', 'id', 'type', 'job_type', 'message', 'source_job', 'source_aggregator', "artifact_type", "artifact_id", "process_type", "process_id", 'button'];
   @ViewChild(MatPaginator) notificationPaginator: MatPaginator;
 
-  constructor(private supervisorService: SupervisorService, private snackBar: MatSnackBar, public loadingService: LoadingService, public deleteProcessDialog: MatDialog) {
+  constructor(private supervisorService: SupervisorService, public loadingService: LoadingService, public deleteProcessDialog: MatDialog) {
     this.eventSubscription = this.supervisorService.NotificationEventEmitter.subscribe((update: any) => {
       this.applyUpdate(update)
     })
@@ -47,7 +47,6 @@ export class NotificationsComponent implements OnInit {
       this.requestPastNotifications(this.stakeholders.value)
     }
     if (this.live.value) {
-      let stakeholders = this.stakeholders.value
       this.subscribeToNotification(this.stakeholders.value)
     }
   }
@@ -71,6 +70,9 @@ export class NotificationsComponent implements OnInit {
     }
   }
 
+  /**
+   * Requests the list of defined Stakeholders from the back-end
+   */
   requestStakeholderList() {
     this.loadingService.setLoadningState(true)
     var payload = {
@@ -79,6 +81,10 @@ export class NotificationsComponent implements OnInit {
     this.supervisorService.requestUpdate(MODULE_STORAGE_KEY, payload)
   }
 
+  /**
+   * Requests historic notifications sent to the specified Stakeholders
+   * @param stakeholders List of Stakeholders the notifications intended to
+   */
   requestPastNotifications(stakeholders: any) {
     this.loadingService.setLoadningState(true)
     var payload = {
@@ -88,6 +94,10 @@ export class NotificationsComponent implements OnInit {
     this.supervisorService.requestUpdate(MODULE_STORAGE_KEY, payload)
   }
 
+  /**
+   * Subscribe to future notifications sent to a defined set of Stakeholders
+   * @param stakeholders A list of Stakeholder names
+   */
   subscribeToNotification(stakeholders: any) {
     this.subscribedTo = stakeholders
     var payload = {
@@ -96,5 +106,4 @@ export class NotificationsComponent implements OnInit {
     }
     this.supervisorService.requestUpdate(MODULE_STORAGE_KEY, payload)
   }
-
 }

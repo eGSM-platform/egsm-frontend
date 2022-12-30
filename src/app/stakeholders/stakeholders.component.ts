@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoadingService } from '../loading.service';
 import { Stakeholder } from '../primitives/primitives';
-import {StakeholderDetailComponent } from '../stakeholder-detail/stakeholder-detail.component';
+import { StakeholderDetailComponent } from '../stakeholder-detail/stakeholder-detail.component';
 import { SupervisorService } from '../supervisor.service';
 
 const MODULE_STORAGE_KEY = 'stakeholder_detail'
@@ -33,7 +33,6 @@ export class StakeholdersComponent implements OnInit {
   }
 
   applyUpdate(update: any) {
-    console.log(update)
     this.loadingService.setLoadningState(false)
     var result = update['result'] || undefined
     if (update['type'] == 'search') {
@@ -73,15 +72,18 @@ export class StakeholdersComponent implements OnInit {
 
   onSearch(stakeholder_name: string) {
     this.snackBar.dismiss()
-    if(stakeholder_name.length == 0){
+    if (stakeholder_name.length == 0) {
       this.snackBar.open(`Please provide all necessary arguments!`, "Hide", { duration: 2000 });
       return
     }
     this.requestStakeholderData(stakeholder_name)
   }
 
+  /**
+   * Requests details of a specified Stakeholder from the back-end 
+   * @param stakeholder_name Name of the requested Stakeholder
+   */
   requestStakeholderData(stakeholder_name: string) {
-    console.log(stakeholder_name)
     this.loadingService.setLoadningState(true)
     var payload = {
       stakeholder_name: stakeholder_name
@@ -89,6 +91,10 @@ export class StakeholdersComponent implements OnInit {
     this.supervisorService.requestUpdate(MODULE_STORAGE_KEY, payload)
   }
 
+  /**
+   * Initiates the creation of a new Stakeholder on the back-end
+   * @param stakeholder_name Name of the new Stakeholder
+   */
   createStakeholder(stakeholder_name: string) {
     this.loadingService.setLoadningState(true)
     var payload = {
@@ -97,5 +103,4 @@ export class StakeholdersComponent implements OnInit {
     }
     this.supervisorService.sendCommand(MODULE_STORAGE_KEY, payload)
   }
-
 }

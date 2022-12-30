@@ -43,6 +43,12 @@ export class NewProcessGroupDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * Initiates the creating of a new Process Group
+   * @param groupId Name of the new Process Group
+   * @param ruleExpression Membership rules of the Process Group in JSON format
+   * @returns 
+   */
   onCreate(groupId: string, ruleExpression: string) {
     this.snackBar.dismiss()
     try {
