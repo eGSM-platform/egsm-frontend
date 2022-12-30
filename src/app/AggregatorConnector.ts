@@ -1,9 +1,11 @@
-import { EventEmitter, Injectable, Output } from '@angular/core';
-import { Subject } from 'rxjs';
+import { EventEmitter } from '@angular/core';
 import { webSocket } from 'rxjs/webSocket';
 
 const API_PROTOCOL = 'data-connection'
 
+/**
+ * Establishes Websocket Connection with a specified Aggregator instance and provides communication interfact to maintain full-duplex communication
+ */
 export class AggregatorConnector {
     socket = undefined
     observable = undefined
@@ -11,18 +13,26 @@ export class AggregatorConnector {
 
     constructor() { }
 
+    /**
+     * Connects to the specified Websocket Server (which should belong to an Aggregator)
+     * @param host 
+     * @param port 
+     */
     connect(host: string, port: number) {
         this.eventEmitter = new EventEmitter();
         this.socket = webSocket({ url: `ws://${host}:${port}`, protocol: API_PROTOCOL });
         this.observable = this.socket.subscribe({
-            next: msg => this.messageHandler(msg), // Called whenever there is a message from the server.
-            error: err => console.log(err), // Called if at any point WebSocket API signals some kind of error.
-            complete: () => console.log('complete') // Called when connection is closed (for whatever reason).
+            next: msg => this.messageHandler(msg),
+            error: err => console.log(err),
+            complete: () => console.log('Disconnected from Aggregator')
         });
     }
 
+    /**
+     * Closes the connection with the Aggregator
+     */
     disconnect() {
-        console.log('disconnected')
+        console.log('Disconnecting from Aggregator')
         this.observable.unsubscribe()
     }
 
@@ -35,6 +45,10 @@ export class AggregatorConnector {
         }
     }
 
+    /**
+     * Subscribes to updates from a specified job (jobid)
+     * @param jobid Id of the job
+     */
     subscribeJob(jobid: string) {
         let newMessage = {
             type: "job_update",

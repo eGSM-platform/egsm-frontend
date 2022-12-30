@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import * as go from 'gojs';
@@ -15,8 +15,6 @@ export class EngineDetailDialogComponent {
 
   constructor(public dialogRef: MatDialogRef<EngineDetailDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: Engine) { }
 
-  // Big object that holds app-level state data
-  // As of gojs-angular 2.0, immutability is required of state for change detection
   public state = {
     // Diagram state props
     diagramNodeData: [
@@ -97,6 +95,9 @@ export class EngineDetailDialogComponent {
     return palette;
   }
 
+  /**
+   * Navigate to the HTML page provided by the eGSM Worker
+   */
   onOpenegsm() {
     var url = 'http://' + this.data.worker_host + ':' + this.data.worker_api_port + '/?engine_id=' + this.data.name
     window.open(url, "_blank");

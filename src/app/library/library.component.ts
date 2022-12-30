@@ -75,55 +75,58 @@ export class LibraryComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * Opens a NewProcessInstanceDialogComponent where the user can provide details of the new Process instnace
+   * @param process_type_name Name of the process type requested to create
+   */
   openNewProcessInstanceDialog(process_type_name: string) {
-    const dialogRef = this.dialog.open(NewProcessInstanceDialogComponent, {
+    this.dialog.open(NewProcessInstanceDialogComponent, {
       width: '1000px',
       data: {
         process_type_name: process_type_name,
       }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
   }
 
-  openProcessDetailsDialog(process_type_name:string){
-    const dialogRef = this.dialog.open(ProcessTypeDetailsComponent, {
+  /**
+   * Opens a ProcessTypeDetailsComponent dialog, where details and statistics about the process type is visible
+   * @param process_type_name Name of the Process Type
+   */
+  openProcessDetailsDialog(process_type_name: string) {
+    this.dialog.open(ProcessTypeDetailsComponent, {
       width: '90%',
       data: {
         process_type_name: process_type_name,
       }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
   }
 
+  /**
+   * Opens a NewProcessGroupDialogComponent dialog, where the user can provide the name and membership rules of the new process
+   */
   onDefineProcessGroup() {
-    const dialogRef = this.dialog.open(NewProcessGroupDialogComponent, {
+    this.dialog.open(NewProcessGroupDialogComponent, {
       width: '650px',
       data: {
-
       }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 
+  /**
+   * Initiates a search on the backend for the specified Process Group
+   * @param groupName Name of the requested Process Group
+   */
   onProcessGroupSearch(groupName: string) {
     this.snackBar.dismiss()
     if (groupName.length == 0) {
       this.snackBar.open(`Please provide all necessary arguments!`, "Hide", { duration: 2000 });
-      return
     }
-    var payload = {
-      type: 'get_process_group',
-      process_goup_id: groupName
+    else {
+      var payload = {
+        type: 'get_process_group',
+        process_goup_id: groupName
+      }
+      this.supervisorService.requestUpdate(MODULE_STORAGE_KEY, payload)
     }
-    this.supervisorService.requestUpdate(MODULE_STORAGE_KEY, payload)
   }
 }

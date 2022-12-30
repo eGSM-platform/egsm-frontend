@@ -11,6 +11,7 @@ const MODULE_STORAGE_KEY = 'aggregators'
   styleUrls: ['./aggregators.component.scss']
 })
 export class AggregatorsComponent implements OnInit {
+  //Job example setups
   readonly example_artifact_usage_statistic_processing = `
   {
     "type": "artifact-usage-statistic-processing",

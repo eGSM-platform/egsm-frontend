@@ -12,27 +12,18 @@ import {
 
 import * as BpmnModeler from 'bpmn-js/dist/bpmn-modeler.production.min.js';
 import { Subject } from 'rxjs';
-import { BpmnBlockOverlayReport, ProcessPerspectiveStatistic } from '../primitives/primitives';
+import { BpmnBlockOverlayReport, Color, ProcessPerspectiveStatistic } from '../primitives/primitives';
 
 
 @Component({
   selector: 'app-bpmn',
-  template: `<h1>{{model_id}}</h1>
-    <div #ref class="diagram-container"></div>
-  `,
-  styles: [
-    `
-      .diagram-container {
-        margin-left: auto;
-        margin-right: auto;
-        height: 100%;
-        width: 80%;
-      }
-    `
-  ]
+  templateUrl: './bpmn.component.html',
+  styleUrls: ['./bpmn.component.scss']
 })
+
 export class BpmnComponent implements AfterContentInit, OnDestroy {
-  bpmnJS: BpmnModeler = undefined
+  bpmnJS: BpmnModeler = undefined //The BPMN Modeller instance
+
   @ViewChild('ref', { static: true }) private el: ElementRef;
 
   @Input() show_statistics: boolean;
@@ -40,23 +31,22 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
   @Input() public model_xml: string;
   @Output() DiagramEventEmitter: Subject<any> = new Subject();
 
-  blockStatistics = new Map()
+  blockStatistics = new Map() //Containing statistics for block (Block name -> {Statistics})
   blockProperties = new Map() //Block name -> {BpmnBlockOverlayReport}
 
-  visibleOverlays = new Map() //Block name where the overlay attached to AND/OR unique role ID -> Library generated Overlay ID (needed to make possible removals)
+  visibleOverlays = new Map() //Block name where the overlay attached to AND/OR unique role ID (e.g.: 'statisctic-overlay') -> Library generated Overlay ID (needed to make possible removals)
 
   constructor() {
     this.bpmnJS = new BpmnModeler();
   }
 
   ngAfterContentInit(): void {
-    // attach BpmnJS instance to DOM element
     this.bpmnJS.attachTo(this.el.nativeElement);
     if (this.model_xml) {
       this.updateModelXml(this.model_xml)
     }
 
-    var eventBus = this.bpmnJS.get('eventBus');
+    var eventBus = this.bpmnJS.get('eventBus'); //Eventbus to receive diagram events
     var bpmnJsRef = this.bpmnJS
 
     if (this.show_statistics) {
@@ -82,9 +72,16 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
         }
       })
     }
-    this.DiagramEventEmitter.next({ type: 'INIT_DONE' })
+    this.DiagramEventEmitter.next('INIT_DONE' )
   }
 
+  /**
+   * Function to update the XML describing the displayed diagram
+   * Since this XML contains the foundations of the diagram as a side-effect this function clears all
+   * block properties, block overlays and block statistics, because on the new diagram they may have no effect,
+   * or they would lead to unexpected behavior
+   * @param value Bpmn diagram in XML format
+   */
   updateModelXml(value: string) {
     if (value) {
       this.blockStatistics.clear()
@@ -92,7 +89,6 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
       this.visibleOverlays.clear()
       this.bpmnJS.importXML(value)
       this.bpmnJS.on('import.done', ({ error }) => {
-        console.log('import done')
         if (!error) {
           this.bpmnJS.get('canvas').zoom('fit-viewport');
         }
@@ -100,6 +96,12 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
     }
   }
 
+  /**
+   * Apply a list of BpmnBlockOverlayReport-s on the diagram
+   * The function iterates through all reports in the 'overlayreport' attribute and applies its content on the diagram
+   * BpmnBlockOverlayReport-s can change block color or add icon(s) to blocks
+   * @param overlayreport List of BpmnBlockOverlayReport-s
+   */
   applyOverlayReport(overlayreport: BpmnBlockOverlayReport[]) {
     var overlay = this.bpmnJS.get('overlays');
     overlayreport.forEach(element => {
@@ -107,12 +109,11 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
       //If yes then check if the new overlay introduces any changes
       if (this.blockProperties.has(element.block_id)) {
         if (this.blockProperties.get(element.block_id).color != element.color) {
-          this.setTaskColor(element.block_id, element.color)
+          this.setBlockColor(element.block_id, element.color)
           this.blockProperties.get(element.block_id).color = element.color
         }
         this.blockProperties.get(element.block_id).flags.forEach(flag => {
           if (!element.flags.includes(flag)) {
-            console.log('remove flag: ' + flag)
             //Remove flag, since it is not longer part of the report
             overlay.remove(this.visibleOverlays.get(element.block_id + flag))
             this.visibleOverlays.delete(element.block_id + flag)
@@ -128,7 +129,7 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
       }
       else {
         this.blockProperties.set(element.block_id, { color: element.color, flags: new Set(element.flags) })
-        this.setTaskColor(element.block_id, element.color)
+        this.setBlockColor(element.block_id, element.color)
         element.flags.forEach(flag => {
           this.addFlagToOverlay(element.block_id, flag)
         });
@@ -136,6 +137,12 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
     });
   }
 
+  /**
+   * Adds a flag to an element on the diagram
+   * If a certain type of flag is already added to a block, the function will not add it again to avoid duplicating flags
+   * @param elementId Id of the block the flag should be added to
+   * @param flag Type of the flag
+   */
   addFlagToOverlay(elementId: string, flag: string) {
     var overlay = this.bpmnJS.get('overlays');
     var flagNumber = 0
@@ -169,6 +176,12 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
     }));
   }
 
+  /**
+   * Updates a list of ProcessPerspectiveStatistic instances on the diagram
+   * If statistic for a certain block is already exists then the function will overwrite it if any of the provided ProcessPerspectiveStatistic instances 
+   * regards that particular block
+   * @param perspectiveStatistic 
+   */
   updateStatistics(perspectiveStatistic: ProcessPerspectiveStatistic) {
     if (this.show_statistics) {
       this.blockStatistics.clear()
@@ -181,24 +194,24 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
     }
   }
 
-
-  ngOnDestroy(): void {
-    this.bpmnJS.destroy();
-  }
-
-  importDiagram(xml: string): any {
-    throw new Error('Method not implemented.');
-  }
-
-  setTaskColor(taskId, color) {
-    console.log('Set Task color + ' + color)
+  /**
+   * Updates the color of a block (edge, event, task etc.)
+   * @param taskId Id of the block
+   * @param color New color as a {stroke; fill} object
+   */
+  setBlockColor(taskId: string, color: Color) {
     var modeling = this.bpmnJS.get('modeling');
     var elementRegistry = this.bpmnJS.get('elementRegistry');
     var element = elementRegistry.get(taskId)
     if (color == undefined) {
       modeling.setColor([element], null);
-      return
     }
-    modeling.setColor([element], { stroke: color.stroke, fill: color.fill });
+    else {
+      modeling.setColor([element], { stroke: color.stroke, fill: color.fill });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.bpmnJS.destroy();
   }
 }
