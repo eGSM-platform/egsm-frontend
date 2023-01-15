@@ -64,7 +64,6 @@ export class LibraryComponent implements AfterViewInit {
     }
     else if (update['type'] == 'get_process_group') {
       if (update['result'] == 'found') {
-        console.log(update['process_group'])
         this.processGroupDetails = update['process_group'] as ProcessGroup
         this.isProcessGroupDetailsFound = true
       }
@@ -94,7 +93,8 @@ export class LibraryComponent implements AfterViewInit {
    */
   openProcessDetailsDialog(process_type_name: string) {
     this.dialog.open(ProcessTypeDetailsComponent, {
-      width: '90%',
+      width: '95%',
+      height: '95%',
       data: {
         process_type_name: process_type_name,
       }

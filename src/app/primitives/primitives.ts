@@ -89,11 +89,7 @@ export interface ProcessPerspectiveStatistic {
 
 export interface TaskStatistics {
     id: String
-    opened: Number
-    completed: Number
-    skipped: Number
-    out_of_order: Number
-    faulty: Number
+    values?: any
 }
 
 export interface BpmnBlockOverlayReport {
@@ -111,4 +107,5 @@ export interface Color {
 export interface ProcessPerspective {
     name: string,
     bpmn_xml: string
+    statistics?: any
 }

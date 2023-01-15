@@ -1,1 +1,15 @@
-<p>process-type-details works!</p>
+<h1>{{data.process_type_name}}</h1>
+
+
+<div *ngFor="let perspective of diagramPerspectives">
+    <br>
+    <div class="mat-elevation-z8">
+        <mat-card class="bpmn-container">
+            <div class="bpmn-container">
+                <app-bpmn class='diagram' [show_statistics]="true" [model_id]="perspective.name" [model_xml]="perspective.bpmn_xml" (DiagramEventEmitter)="onDiagramEvent($event)"
+                    #bpmn_diagrams></app-bpmn>
+            </div>
+        </mat-card>
+    </div>
+    <br>
+</div>
