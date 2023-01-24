@@ -15,9 +15,11 @@ export interface Artifact {
     host: string,
     port: number,
     stakeholders: string[],
-    faulty_rates?: Object,
-    timing_faulty_rates?: Object,
-    stakeholders_str?: String
+    faulty_rates?: Object[],
+    timing_faulty_rates?: Object[],
+    stakeholders_str?: String,
+    faulty_rates_str?: String,
+    timing_faulty_rates_str?: String,
 }
 
 export interface Process {
