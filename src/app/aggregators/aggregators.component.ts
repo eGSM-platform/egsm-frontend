@@ -43,6 +43,18 @@ export class AggregatorsComponent implements OnInit {
     "notificationrules": ["NOTIFY_ALL"]
   }`
 
+  readonly example_real_time_process_aggregation =`
+  {
+    "type": "real-time-process-aggregation",
+    "processtype": "Running_example"
+  }`
+
+  readonly example_artifact_event_processing =`
+  {
+    "type": "artifact-event-processing",
+    "frequency": 10
+  }`
+
   eventSubscription: any
   noteColor = "lightgreen"
   constructor(private loadingService: LoadingService, private snackBar: MatSnackBar, private supervisorService: SupervisorService) {
