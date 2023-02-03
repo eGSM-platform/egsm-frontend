@@ -15,9 +15,11 @@ export interface Artifact {
     host: string,
     port: number,
     stakeholders: string[],
-    faulty_rates?: Object,
-    timing_faulty_rates?: Object,
-    stakeholders_str?: String
+    faulty_rates?: Object[],
+    timing_faulty_rates?: Object[],
+    stakeholders_str?: String,
+    faulty_rates_str?: String,
+    timing_faulty_rates_str?: String,
 }
 
 export interface Process {
@@ -89,11 +91,7 @@ export interface ProcessPerspectiveStatistic {
 
 export interface TaskStatistics {
     id: String
-    opened: Number
-    completed: Number
-    skipped: Number
-    out_of_order: Number
-    faulty: Number
+    values?: any
 }
 
 export interface BpmnBlockOverlayReport {
@@ -111,4 +109,5 @@ export interface Color {
 export interface ProcessPerspective {
     name: string,
     bpmn_xml: string
+    statistics?: any
 }

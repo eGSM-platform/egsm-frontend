@@ -45,6 +45,7 @@ export class EnginesComponent {
   }
 
   applyUpdate(update: any) {
+    console.log(update)
     this.loadingService.setLoadningState(false)
     var engines = update['engines'] || undefined
     var deleteResult = update['delete_result'] || undefined
@@ -55,9 +56,29 @@ export class EnginesComponent {
       if (update['bpmn_job'] != 'not_found') {
         this.currentBpmnJob = update['bpmn_job']
         this.aggregator.connect(this.currentBpmnJob.host, this.currentBpmnJob.port)
+        var timeout = undefined
         this.aggregatorEventSubscription = this.aggregator.getEventEmitter().subscribe((data) => {
           if (data['update']?.['perspectives'] != undefined) {
-            this.diagramPerspectives = data['update']['perspectives'] as ProcessPerspective[]
+            //var diagramPerspectivesTmp = data['update']['perspectives'] as ProcessPerspective[]
+            if (this.diagramPerspectives.length != 0) {
+              if (timeout != undefined) {
+                clearTimeout(timeout)
+                timeout = undefined
+              }
+              var context = this
+              timeout = setTimeout(function () {
+                console.log('update')
+                context.diagramPerspectives = data['update']['perspectives'] as ProcessPerspective[]
+                timeout = undefined
+              }, 1000);
+            }
+            else {
+              console.log('init update')
+              this.diagramPerspectives = data['update']['perspectives'] as ProcessPerspective[]
+            }
+
+
+
           }
           if (data['update']?.['overlays'] != undefined) {
             var overlays = data['update']['overlays'] as BpmnBlockOverlayReport[]
@@ -80,7 +101,7 @@ export class EnginesComponent {
         this.isResult = false
       }
       else {
-        this.snackBar.open(`Server error occurred while deleting the process`, "Hide", { duration: 2000 });
+        //this.snackBar.open(`Server error occurred while deleting the process`, "Hide", { duration: 2000 });
         this.isResult = false
       }
     }

@@ -51,10 +51,10 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
 
     if (this.show_statistics) {
       var visibleOveraysCopy = this.visibleOverlays
-      var statisticsCopy = this.blockStatistics
+      var context = this
       eventBus.on('element.hover', function (e) {
         var elementId = e.element.id
-        if (statisticsCopy.has(elementId)) {
+        if (context.blockStatistics.has(elementId)) {
           var overlay = bpmnJsRef.get('overlays');
           if (visibleOveraysCopy.has('statisctic-overlay')) {
             overlay.remove(visibleOveraysCopy.get('statisctic-overlay'))
@@ -65,14 +65,33 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
               top: -25,
               right: 0
             },
-            html: `<div style="background-color:#ffcc66;"><h1>${elementId}</h1>` +
-              `<p>Opened: ${statisticsCopy.get(elementId).opened}</p>` +
-              `<p>Completed: ${statisticsCopy.get(elementId).completed}</p></div>`
+            html: `<div style="width: 300px; background-color:#ffcc66;"><h1>${elementId} - Historical</h1>` +
+              `<p>Regular: ${context.blockStatistics.get(elementId).values.regular}<br>` +
+              `Faulty: ${context.blockStatistics.get(elementId).values.faulty}<br>` +
+              `Unopened: ${context.blockStatistics.get(elementId).values.unopened}<br>` +
+              `Opened: ${context.blockStatistics.get(elementId).values.opened}<br>` +
+              `Skipped: ${context.blockStatistics.get(elementId).values.skipped}<br>` +
+              `OnTime: ${context.blockStatistics.get(elementId).values.onTime}<br>` +
+              `OutOfOrder: ${context.blockStatistics.get(elementId).values.outOfOrder}<br>` +
+              `SkipDeviation Skipped: ${context.blockStatistics.get(elementId).values.skipdeviation_skipped}<br>` +
+              `SkipDeviation OoO: ${context.blockStatistics.get(elementId).values.skipdeviation_outoforder}<br>` +
+              `Flow Violation: ${context.blockStatistics.get(elementId).values.flow_violation}<br>` +
+              `Incomplete Execution: ${context.blockStatistics.get(elementId).values.incomplete_execution}<br>` +
+              `Multi Execution Deviation: ${context.blockStatistics.get(elementId).values.multi_execution}</p>` +
+              `<h1>Real Time</h1>` +
+              `<p>Regular: ${context.blockStatistics.get(elementId).values.real_time_regular}<br>` +
+              `Faulty: ${context.blockStatistics.get(elementId).values.real_time_faulty}<br>` +
+              `Unopened: ${context.blockStatistics.get(elementId).values.real_time_unopened}<br>` +
+              `Opened: ${context.blockStatistics.get(elementId).values.real_time_opened}<br>` +
+              `Skipped: ${context.blockStatistics.get(elementId).values.real_time_skipped}<br>` +
+              `Ontime: ${context.blockStatistics.get(elementId).values.real_time_ontime}<br>` +
+              `OutOfOrder: ${context.blockStatistics.get(elementId).values.real_time_outoforder}</p>` +
+              `</div>`
           }));
         }
       })
     }
-    this.DiagramEventEmitter.next('INIT_DONE' )
+    this.DiagramEventEmitter.next('INIT_DONE')
   }
 
   /**
@@ -165,7 +184,9 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
       case 'INCORRECT_BRANCH':
         var html = `<img width="25" height="25" src="assets/cross.png"> `
         break
-
+      case 'SKIPPED':
+        var html = `<img width="25" height="25" src="assets/skip.webp"> `
+        break;
     }
     this.visibleOverlays.set(elementId + "_" + flag, overlay.add(elementId, {
       position: {
