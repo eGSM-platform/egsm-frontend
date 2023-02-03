@@ -80,7 +80,7 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
               `Multi Execution Deviation: ${context.blockStatistics.get(elementId).values.multi_execution}</p>` +
               `<h1>Real Time</h1>` +
               `<p>Regular: ${context.blockStatistics.get(elementId).values.real_time_regular}<br>` +
-              `Fault: ${context.blockStatistics.get(elementId).values.real_time_faulty}<br>` +
+              `Faulty: ${context.blockStatistics.get(elementId).values.real_time_faulty}<br>` +
               `Unopened: ${context.blockStatistics.get(elementId).values.real_time_unopened}<br>` +
               `Opened: ${context.blockStatistics.get(elementId).values.real_time_opened}<br>` +
               `Skipped: ${context.blockStatistics.get(elementId).values.real_time_skipped}<br>` +
