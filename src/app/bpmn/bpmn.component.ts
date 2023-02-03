@@ -65,7 +65,7 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
               top: -25,
               right: 0
             },
-            html: `<div style="width: 300px; background-color:#ffcc66;"><h1>${elementId}</h1>` +
+            html: `<div style="width: 300px; background-color:#ffcc66;"><h1>${elementId} - Historical</h1>` +
               `<p>Regular: ${context.blockStatistics.get(elementId).values.regular}<br>` +
               `Faulty: ${context.blockStatistics.get(elementId).values.faulty}<br>` +
               `Unopened: ${context.blockStatistics.get(elementId).values.unopened}<br>` +
@@ -77,7 +77,16 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
               `SkipDeviation OoO: ${context.blockStatistics.get(elementId).values.skipdeviation_outoforder}<br>` +
               `Flow Violation: ${context.blockStatistics.get(elementId).values.flow_violation}<br>` +
               `Incomplete Execution: ${context.blockStatistics.get(elementId).values.incomplete_execution}<br>` +
-              `Multi Execution Deviation: ${context.blockStatistics.get(elementId).values.multi_execution}</p></div>`
+              `Multi Execution Deviation: ${context.blockStatistics.get(elementId).values.multi_execution}</p>` +
+              `<h1>Real Time</h1>` +
+              `<p>Regular: ${context.blockStatistics.get(elementId).values.real_time_regular}<br>` +
+              `Fault: ${context.blockStatistics.get(elementId).values.real_time_faulty}<br>` +
+              `Unopened: ${context.blockStatistics.get(elementId).values.real_time_unopened}<br>` +
+              `Opened: ${context.blockStatistics.get(elementId).values.real_time_opened}<br>` +
+              `Skipped: ${context.blockStatistics.get(elementId).values.real_time_skipped}<br>` +
+              `Ontime: ${context.blockStatistics.get(elementId).values.real_time_ontime}<br>` +
+              `OutOfOrder: ${context.blockStatistics.get(elementId).values.real_time_outoforder}</p>` +
+              `</div>`
           }));
         }
       })
@@ -175,7 +184,9 @@ export class BpmnComponent implements AfterContentInit, OnDestroy {
       case 'INCORRECT_BRANCH':
         var html = `<img width="25" height="25" src="assets/cross.png"> `
         break
-
+      case 'SKIPPED':
+        var html = `<img width="25" height="25" src="assets/skip.webp"> `
+        break;
     }
     this.visibleOverlays.set(elementId + "_" + flag, overlay.add(elementId, {
       position: {

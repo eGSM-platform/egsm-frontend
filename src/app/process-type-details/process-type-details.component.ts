@@ -28,7 +28,27 @@ export class ProcessTypeDetailsComponent implements OnInit {
 
   applyUpdate(update: any) {
     if (update['result'] == 'ok') {
+      console.log(update)
       this.diagramPerspectives = update['historic']['perspectives'] as ProcessPerspective[]
+      var realTimePerspectives = update['real_time']['perspectives']
+      realTimePerspectives.forEach(realTimePerspective => {
+        this.diagramPerspectives.forEach(diagramPerspective => {
+          if(diagramPerspective.name == realTimePerspective.name){
+            console.log('name match' + diagramPerspective.name)
+            realTimePerspective.stages.forEach(stage => {
+              console.log(realTimePerspective)
+              console.log(this.diagramPerspectives)
+              diagramPerspective['statistics'][stage.name]['real_time_regular'] = stage.stage.regular
+              diagramPerspective['statistics'][stage.name]['real_time_faulty'] = stage.stage.faulty
+              diagramPerspective['statistics'][stage.name]['real_time_unopened'] = stage.stage.unopened
+              diagramPerspective['statistics'][stage.name]['real_time_opened'] = stage.stage.opened
+              diagramPerspective['statistics'][stage.name]['real_time_skipped'] = stage.stage.skipped
+              diagramPerspective['statistics'][stage.name]['real_time_ontime'] = stage.stage.onTime
+              diagramPerspective['statistics'][stage.name]['real_time_outoforder'] = stage.stage.outOfOrder
+            });
+          }
+        });
+      });
     }
     else {
       //this.snackBar.open(`Process created successfully, but error while creating related observation job!`, "Hide", { duration: 2000 });
@@ -58,6 +78,7 @@ export class ProcessTypeDetailsComponent implements OnInit {
               })
             });
             var perspectiveStatistic = { perspective: perspective.name, statistics: taskStatistics }
+            console.log(taskStatistics)
             diagram.updateStatistics(perspectiveStatistic)
           }
 
