@@ -13,7 +13,7 @@ const MODULE_STORAGE_KEY = 'new_process_instance'
 })
 export class NewProcessInstanceDialogComponent {
   eventSubscription: any
-  constructor(public dialogRef: MatDialogRef<NewProcessInstanceDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: NewProcessInstanceDialogData,
+  constructor(public dialogRef: MatDialogRef<NewProcessInstanceDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
     private loadingService: LoadingService, private snackBar: MatSnackBar, private supervisorService: SupervisorService) {
     this.eventSubscription = this.supervisorService.NewProcessInstaceEventEmitter.subscribe((update: any) => {
       this.applyUpdate(update)
@@ -26,8 +26,14 @@ export class NewProcessInstanceDialogComponent {
       this.snackBar.open(`Process created successfully`, "Hide", { duration: 2000 });
       this.dialogRef.close()
     }
+    else if (update['result'] == 'engines_ok') {
+      this.snackBar.open(`Process created successfully, but error while creating related observation job!`, "Hide", { duration: 2000 });
+    }
     else if (update['result'] == 'id_not_free') {
       this.snackBar.open(`A process instance with this ID is already exist! Creation could not be finished`, "Hide", { duration: 2000 });
+    }
+    else if (update['result'] == 'backend_error') {
+      this.snackBar.open(`Backend error while creating the process instance. Probably not all required eGSM engine and/or BPMN model has been created!`, "Hide", { duration: 2000 });
     }
   }
 
@@ -35,7 +41,7 @@ export class NewProcessInstanceDialogComponent {
     this.eventSubscription.unsubscribe()
   }
 
-  onCreate(instance_name: string) {
+  onCreate(instance_name: string, bpmn_job_start: boolean) {
     this.snackBar.dismiss()
     this.loadingService.setLoadningState(true)
     if (instance_name.includes('__') || instance_name.includes('/') || instance_name.includes('#')) {
@@ -45,13 +51,10 @@ export class NewProcessInstanceDialogComponent {
     else {
       var payload = {
         instance_name: instance_name,
+        bpmn_job_start: bpmn_job_start,
         process_type: this.data.process_type_name
       }
       this.supervisorService.sendCommand(MODULE_STORAGE_KEY, payload)
     }
   }
-}
-
-export interface NewProcessInstanceDialogData {
-  process_type_name: string
 }

@@ -1,0 +1,98 @@
+import { Component, Inject, OnInit, ViewChildren } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { BpmnComponent } from '../bpmn/bpmn.component';
+import { NewProcessInstanceDialogComponent } from '../library/new-process-instance-dialog/new-process-instance-dialog.component';
+import { ProcessPerspective, TaskStatistics } from '../primitives/primitives';
+import { SupervisorService } from '../supervisor.service';
+
+const MODULE_STORAGE_KEY = 'process_type_detail'
+
+@Component({
+  selector: 'app-process-type-details',
+  templateUrl: './process-type-details.component.html',
+  styleUrls: ['./process-type-details.component.scss']
+})
+export class ProcessTypeDetailsComponent implements OnInit {
+  eventSubscription: any
+  diagramPerspectives: ProcessPerspective[] = []
+  @ViewChildren('bpmn_diagrams') bpmnDiagrams: BpmnComponent[]
+
+  constructor(public dialogRef: MatDialogRef<NewProcessInstanceDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
+    private snackBar: MatSnackBar, private supervisorService: SupervisorService) {
+    this.eventSubscription = this.supervisorService.ProcessTypeDetailEventEmitter.subscribe((update: any) => {
+      this.applyUpdate(update)
+    })
+    this.requestProcessData(this.data.process_type_name)
+  }
+
+  applyUpdate(update: any) {
+    if (update['result'] == 'ok') {
+      console.log(update)
+      this.diagramPerspectives = update['historic']['perspectives'] as ProcessPerspective[]
+      var realTimePerspectives = update['real_time']['perspectives']
+      realTimePerspectives.forEach(realTimePerspective => {
+        this.diagramPerspectives.forEach(diagramPerspective => {
+          if(diagramPerspective.name == realTimePerspective.name){
+            console.log('name match' + diagramPerspective.name)
+            realTimePerspective.stages.forEach(stage => {
+              console.log(realTimePerspective)
+              console.log(this.diagramPerspectives)
+              diagramPerspective['statistics'][stage.name]['real_time_regular'] = stage.stage.regular
+              diagramPerspective['statistics'][stage.name]['real_time_faulty'] = stage.stage.faulty
+              diagramPerspective['statistics'][stage.name]['real_time_unopened'] = stage.stage.unopened
+              diagramPerspective['statistics'][stage.name]['real_time_opened'] = stage.stage.opened
+              diagramPerspective['statistics'][stage.name]['real_time_skipped'] = stage.stage.skipped
+              diagramPerspective['statistics'][stage.name]['real_time_ontime'] = stage.stage.onTime
+              diagramPerspective['statistics'][stage.name]['real_time_outoforder'] = stage.stage.outOfOrder
+            });
+          }
+        });
+      });
+    }
+    else {
+      //this.snackBar.open(`Process created successfully, but error while creating related observation job!`, "Hide", { duration: 2000 });
+    }
+  }
+
+  ngOnInit(): void {
+  }
+
+  ngOnDestroy() {
+    this.eventSubscription.unsubscribe()
+
+  }
+
+  onDiagramEvent(event: any) {
+    if (event == 'INIT_DONE') {
+      var context = this
+      setTimeout(function () {
+        context.diagramPerspectives.forEach(perspective => {
+          var diagram = context.bpmnDiagrams.find(element => element.model_id == perspective.name)
+          if (diagram) {
+            var taskStatistics: TaskStatistics[] = []
+            Object.keys(perspective['statistics']).forEach(e => {
+              taskStatistics.push({
+                id: e,
+                values: perspective['statistics'][e]
+              })
+            });
+            var perspectiveStatistic = { perspective: perspective.name, statistics: taskStatistics }
+            console.log(taskStatistics)
+            diagram.updateStatistics(perspectiveStatistic)
+          }
+
+        });
+      }, 1000);
+    }
+  }
+
+  requestProcessData(processName: string) {
+    var payload = {
+      type: 'get_process_type_aggregation',
+      process_type: processName
+    }
+    this.supervisorService.requestUpdate(MODULE_STORAGE_KEY, payload)
+  }
+
+}

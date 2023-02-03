@@ -8,7 +8,7 @@ import { LoadingService } from '../loading.service';
 })
 export class LoadingBarComponent implements OnInit {
 
-  isProgress = false;
+  isProgress = false; //True if loading bar should be visible
   constructor(private loadingService: LoadingService) { }
 
   ngOnInit(): void {

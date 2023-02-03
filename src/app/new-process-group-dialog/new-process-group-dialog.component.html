@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>Define new Process Group</h1>
+
+<mat-form-field class="form" appearance="fill">
+    <mat-label>Enter Process Group ID</mat-label>
+    <input (keyup.enter)="onCreate(group_id.value, rule_expression.value)" #group_id matInput placeholder="Group-1"
+        required>
+</mat-form-field>
+
+<br>
+
+<mat-form-field class="form" appearance="fill">
+    <mat-label>Enter Rule Expression</mat-label>
+    <textarea class="rule-expression" #rule_expression
+        matInput placeholder="Valid JSON expression" required>{
+    "STAKEHOLDER":"Container_Company",
+    "PROCESS_TYPE":"DummyProcessType"
+}   
+    </textarea>
+</mat-form-field>
+
+
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="onCreate(group_id.value, rule_expression.value)">Create</button>
+</mat-dialog-actions>

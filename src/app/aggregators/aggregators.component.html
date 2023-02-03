@@ -1,1 +1,90 @@
-<p>aggregators works!</p>
+<div class="mat-elevation-z8">
+    <mat-grid-list cols="4" rowHeight="2:1">
+        <mat-grid-tile [colspan]=2 [rowspan]=3>
+            <mat-card class="input">
+                <mat-card-title>Create new Monitoring Job</mat-card-title>
+                <mat-form-field appearance="fill">
+                    <mat-label>Enter Desired Job ID</mat-label>
+                    <input (keyup.enter)="onCreate(new_job_id.value, new_job_definition.value)" #new_job_id matInput
+                        placeholder="job_1" required>
+                </mat-form-field>
+                <br>
+                <mat-form-field class="form" appearance="fill">
+                    <mat-label>Enter Job Definition</mat-label>
+                    <textarea class="rule-expression" #new_job_definition matInput placeholder="Valid JSON expression"
+                        required>
+{
+    "type": "artifact-usage-statistic-processing",
+    "monitoredartifacts": [{
+        "type": "Truck",
+        "id": "abc-123"
+    }],
+    "frequency": 10
+}
+            </textarea>
+                </mat-form-field>
+                <br>
+                <button mat-raised-button (click)="onCreate(new_job_id.value, new_job_definition.value)"
+                    color="primary">Create</button>
+            </mat-card>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+            <mat-card [style.background]=noteColor>
+                <mat-card-header>
+                    <mat-card-subtitle>Example</mat-card-subtitle>
+                    <mat-card-title>Artifact Usage Statistic Processing</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{example_artifact_usage_statistic_processing}}</p>
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-card [style.background]=noteColor>
+                <mat-card-header>
+                    <mat-card-subtitle>Example</mat-card-subtitle>
+                    <mat-card-title>Artifact Unreliability Alert</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{example_artifact_unreliability_alert}}</p>
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-card [style.background]=noteColor>
+                <mat-card-header>
+                    <mat-card-subtitle>Example</mat-card-subtitle>
+                    <mat-card-title>Process Deviation Detection</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{example_process_deviation_detection}}</p>
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+            <mat-card [style.background]=noteColor>
+                <mat-card-header>
+                    <mat-card-subtitle>Example</mat-card-subtitle>
+                    <mat-card-title>Real Time Process Aggregation</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{example_real_time_process_aggregation}}</p>
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-card [style.background]=noteColor>
+                <mat-card-header>
+                    <mat-card-subtitle>Example</mat-card-subtitle>
+                    <mat-card-title>Artifact Event Processing</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{example_artifact_event_processing}}</p>
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
+
+</div>

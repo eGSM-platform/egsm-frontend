@@ -1,0 +1,118 @@
+<div class="mat-elevation-z8">
+  <mat-card class="input">
+    <mat-card-title>Subscribe to Notifications</mat-card-title>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Stakeholders</mat-label>
+      <mat-select [formControl]="stakeholders" multiple>
+        <mat-select-trigger>
+          {{stakeholders.value?.[0] || ''}}
+          <span *ngIf="(stakeholders.value?.length || 0) > 1" class="example-additional-selection">
+            (+{{(stakeholders.value?.length || 0) - 1}} {{stakeholders.value?.length === 2 ? 'other' : 'others'}})
+          </span>
+        </mat-select-trigger>
+        <mat-option *ngFor="let stakeholder of stakeholderList"
+          [value]="stakeholder.name">{{stakeholder.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+    <mat-slide-toggle [formControl]="live" [disabled]="true">Live Updates</mat-slide-toggle>
+    <br>
+    <mat-slide-toggle [formControl]="historical" [disabled]="true">Historical</mat-slide-toggle>
+    <br>
+    <button mat-raised-button (click)="onSubmit()" color="primary">Submit</button>
+  </mat-card>
+</div>
+
+<br>
+
+<div [hidden]="!(subscribedTo.length > 0)" class="mat-elevation-z8">
+  <mat-card class="input">
+    <mat-card-title>
+      <span class="dot"></span>
+      Subscribed To:
+    </mat-card-title>
+    <mat-chip-list aria-label="Fish selection">
+      <mat-chip *ngFor="let stakeholder of subscribedTo">{{stakeholder}}</mat-chip>
+    </mat-chip-list>
+
+    <br>
+
+    <mat-card-title>Notifications:</mat-card-title>
+
+    <table mat-table [dataSource]="dataSource">
+      
+      <ng-container matColumnDef="notified">
+        <th mat-header-cell *matHeaderCellDef> Notified Stakeholder(s) </th>
+        <td mat-cell *matCellDef="let element"> {{element.notified.join('; ')}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="time">
+        <th mat-header-cell *matHeaderCellDef> Timestamp </th>
+        <td mat-cell *matCellDef="let element"> {{element.timestamp}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> Notification ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef> Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="job_type">
+        <th mat-header-cell *matHeaderCellDef> Job Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.job_type}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="message">
+        <th mat-header-cell *matHeaderCellDef> Message </th>
+        <td mat-cell *matCellDef="let element"> {{element.message}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="source_job">
+        <th mat-header-cell *matHeaderCellDef> Source Job </th>
+        <td mat-cell *matCellDef="let element"> {{element.source_job}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="source_aggregator">
+        <th mat-header-cell *matHeaderCellDef> Source Aggregator </th>
+        <td mat-cell *matCellDef="let element"> {{element.source_aggregator}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="artifact_type">
+        <th mat-header-cell *matHeaderCellDef> Artifact Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.artifact_type || "-"}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="artifact_id">
+        <th mat-header-cell *matHeaderCellDef> Artifact ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.artifact_id || "-"}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="process_type">
+        <th mat-header-cell *matHeaderCellDef> Process Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.process_type || "-"}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="process_id">
+        <th mat-header-cell *matHeaderCellDef> Process ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.instance_id || "-"}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="button">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let element"> <a mat-raised-button (click)="navigateToNotification(element)">Navigate
+            to {{element.type}}</a>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons aria-label="Select number of elements">
+    </mat-paginator>
+  </mat-card>
+</div>

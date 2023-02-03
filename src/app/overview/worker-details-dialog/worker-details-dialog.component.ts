@@ -14,7 +14,7 @@ const MODULE_STORAGE_KEY = 'worker_detail'
 export class WorkerDetailsDialogComponent {
   eventSubscription: any
 
-  constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<WorkerDetailsDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: WorkerDetailDialogData,
+  constructor(public dialog: MatDialog, public dialogRef: MatDialogRef<WorkerDetailsDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
     private supervisorService: SupervisorService) {
     this.eventSubscription = this.supervisorService.WorkerDialogEventEmitter.subscribe((update: any) => {
       this.applyUpdate(update)
@@ -28,8 +28,4 @@ export class WorkerDetailsDialogComponent {
   applyUpdate(update: any) {
     this.engineList.update(update['engines'])
   }
-}
-
-export interface WorkerDetailDialogData {
-  name: string;
 }

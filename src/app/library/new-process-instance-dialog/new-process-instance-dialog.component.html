@@ -2,14 +2,14 @@
 
 <mat-form-field class="form" appearance="fill">
     <mat-label>Enter the required Instance ID</mat-label>
-    <input (keyup.enter)="onCreate(instance_id.value)" #instance_id matInput placeholder="instnace_1" required>
+    <input (keyup.enter)="onCreate(instance_id.value, bpmn_job_start.checked)" #instance_id matInput placeholder="instnace_1" required>
 </mat-form-field>
 
 <br>
 
-<mat-slide-toggle disabled="true">Start BPMN diagram job</mat-slide-toggle>
+<mat-slide-toggle #bpmn_job_start>Start BPMN diagram job</mat-slide-toggle>
 
 <mat-dialog-actions>
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button (click)="onCreate(instance_id.value)">Create</button>
+    <button mat-button (click)="onCreate(instance_id.value,bpmn_job_start.checked)">Create</button>
 </mat-dialog-actions>
