@@ -68,7 +68,6 @@ export class EngineDetailDialogComponent {
    * This can be done with any preferred state management method, as long as immutability is preserved.
    */
   public diagramModelChange = function (changes: go.IncrementalData) {
-    console.log(changes);
     // see gojs-angular-basic for an example model changed handler that preserves immutability
     // when setting state, be sure to set skipsDiagramUpdate: true since GoJS already has this update
   };

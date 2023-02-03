@@ -56,13 +56,11 @@ export class NotificationsComponent implements OnInit {
   }
 
   applyUpdate(update: any) {
-    console.log(update)
     this.loadingService.setLoadningState(false)
     if (update['type'] == 'stakeholder_list') {
       this.stakeholderList = update['stakeholder_list']
     }
     else if (update['type'] == 'new_notification') {
-      console.log('new notif')
       var data = this.dataSource.data
       data.unshift(update["notification"] as StakeholderNotification)
       this.dataSource.data = data

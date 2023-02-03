@@ -16,7 +16,6 @@ export class ArtifactDetailComponent implements OnInit {
   }
 
   update(newData:Artifact){
-    console.log(newData)
     this.data = newData
     this.data.stakeholders_str = ''
     this.data.stakeholders.forEach(element => {

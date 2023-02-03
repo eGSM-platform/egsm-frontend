@@ -65,7 +65,6 @@ export class OverviewComponent implements OnInit, AfterViewInit {
    * @param name Name of the Worker
    */
   openDialog(name: LocalizedString) {
-    console.log("navigate: " + name)
     this.dialog.open(WorkerDetailsDialogComponent, {
       width: '1300px',
       data: {

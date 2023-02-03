@@ -28,16 +28,12 @@ export class ProcessTypeDetailsComponent implements OnInit {
 
   applyUpdate(update: any) {
     if (update['result'] == 'ok') {
-      console.log(update)
       this.diagramPerspectives = update['historic']['perspectives'] as ProcessPerspective[]
       var realTimePerspectives = update['real_time']['perspectives']
       realTimePerspectives.forEach(realTimePerspective => {
         this.diagramPerspectives.forEach(diagramPerspective => {
           if(diagramPerspective.name == realTimePerspective.name){
-            console.log('name match' + diagramPerspective.name)
             realTimePerspective.stages.forEach(stage => {
-              console.log(realTimePerspective)
-              console.log(this.diagramPerspectives)
               diagramPerspective['statistics'][stage.name]['real_time_regular'] = stage.stage.regular
               diagramPerspective['statistics'][stage.name]['real_time_faulty'] = stage.stage.faulty
               diagramPerspective['statistics'][stage.name]['real_time_unopened'] = stage.stage.unopened
@@ -78,7 +74,6 @@ export class ProcessTypeDetailsComponent implements OnInit {
               })
             });
             var perspectiveStatistic = { perspective: perspective.name, statistics: taskStatistics }
-            console.log(taskStatistics)
             diagram.updateStatistics(perspectiveStatistic)
           }
 

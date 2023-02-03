@@ -37,7 +37,6 @@ export class AggregatorConnector {
     }
 
     messageHandler(msg: any) {
-        console.log(msg)
         switch (msg['type']) {
             case 'job_update':
                 this.eventEmitter.emit(msg['payload'])

@@ -45,7 +45,6 @@ export class EnginesComponent {
   }
 
   applyUpdate(update: any) {
-    console.log(update)
     this.loadingService.setLoadningState(false)
     var engines = update['engines'] || undefined
     var deleteResult = update['delete_result'] || undefined
@@ -67,13 +66,11 @@ export class EnginesComponent {
               }
               var context = this
               timeout = setTimeout(function () {
-                console.log('update')
                 context.diagramPerspectives = data['update']['perspectives'] as ProcessPerspective[]
                 timeout = undefined
               }, 1000);
             }
             else {
-              console.log('init update')
               this.diagramPerspectives = data['update']['perspectives'] as ProcessPerspective[]
             }
 
